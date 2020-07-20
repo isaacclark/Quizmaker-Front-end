@@ -1,5 +1,5 @@
 import React from 'react';
-import {Checkbox, Card} from 'antd';
+import {Checkbox, Card, Button, Form} from 'antd';
 
 function onChange(checkedValues) {
     console.log('checked = ', checkedValues);
@@ -13,6 +13,12 @@ class BuildCard extends React.Component{
         super(props);
     
         this.state = {
+            question : [{
+                title : "",
+                options : "",
+                answers : ""
+            }]
+
             
         }
 
@@ -23,11 +29,19 @@ class BuildCard extends React.Component{
         this.props.clicked(this.props.id);
     }
 
+    handleSubmit(event){
+        alert(this.state.question)
+    }
     render(){
-        let Meta = Card.Meta;
         return <Card>
-        <h3>{this.props.title}</h3>
-        <Checkbox.Group options = {this.props.answers} onChange={onChange} style={{margin: 'center'}}/>
+            <Form onSubmit={this.handleSubmit}>
+                <p>{this.props.num}</p>
+                <input id = "Title" type="text" value ={this.state.title}/>
+                <input id = "Options" type="text" value ={this.state.options}/>
+                <input id = "Answers" type="text" value ={this.state.answers}/>
+                <Button value="Submit">Submit</Button>
+                <Button onClick={this.props.remove}>Remove</Button>
+            </Form>
         </Card>;
     }
 }
