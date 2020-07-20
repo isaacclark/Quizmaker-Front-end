@@ -1,0 +1,7 @@
+@import '~antd/dist/antd.css'; 
+
+li {
+    cursor: pointer;
+    display: inline;
+    padding: 5%;
+}
