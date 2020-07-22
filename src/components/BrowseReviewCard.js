@@ -1,13 +1,9 @@
 import React from 'react';
 import {Checkbox, Card} from 'antd';
 
-function onChange(checkedValues) {
-    console.log('checked = ', checkedValues);
-}
-
 let answers = []
 
-class BrowseCard extends React.Component{
+class BrowseReviewCard extends React.Component{
     
     constructor(props){
         super(props);
@@ -20,9 +16,7 @@ class BrowseCard extends React.Component{
     }
 
     handleClick = () => {
-        return(
-            this.props.selectID(this.props.id)
-        )
+    
     }
 
     render(){
@@ -39,4 +33,4 @@ class BrowseCard extends React.Component{
     }
 }
 
-export default BrowseCard;
+export default BrowseReviewCard;

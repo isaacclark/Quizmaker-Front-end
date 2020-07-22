@@ -2,7 +2,7 @@ import React from 'react';
 import {Col, Row, Button, Input} from 'antd';
 import QuestionCard from './QuestionCard';
 
-let options = []
+let options= []
 let counter = 0
 
 class Quiz extends React.Component{
@@ -12,9 +12,10 @@ class Quiz extends React.Component{
         
         this.state = { 
             visible : true
+            
         }
 
-        this.clickItem = this.handleClick.bind(this);
+        this.handleClick = this.handleClick.bind(this)
     }
 
     handleClick = () =>{
@@ -23,11 +24,11 @@ class Quiz extends React.Component{
         )
     }
 
+
     oneRow(options, rowNumber){
         
         let row = options.map(element => {
             counter ++;
-            console.log(element.id);
             return <>
                 <Col span={6}>
                     {element !== null ? (
@@ -52,11 +53,11 @@ class Quiz extends React.Component{
         let counter = 0;
         let rowNumber = 0;
 
-        while(counter < this.props.options.length){
+        while(counter < this.props.options[this.props.id-1].questions.length){
             let optionsPerRow = [];
 
-            if(counter < this.props.options.length)  
-                optionsPerRow.push(this.props.options[counter]);
+            if(counter < this.props.options[this.props.id-1].questions.length)  
+                optionsPerRow.push(this.props.options[this.props.id-1].questions[counter]);
             else
                 optionsPerRow.push(null);
 
@@ -67,6 +68,8 @@ class Quiz extends React.Component{
 
         }
         return <>
+            <h1>{this.props.options[this.props.id-1].title}</h1>
+            <img src = {this.props.options[this.props.id-1].imgURL}/>
             {allRows}
             <br/>
             <Button id='submitTest' type="primary" onClick={this.handleClick}>Submit</Button> 

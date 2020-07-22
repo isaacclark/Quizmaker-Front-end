@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Signup from './signup';
-import Login from './Login';
-import Browse from './Browse';
+
 import '../App.css';
 
 let openComponent = ""
@@ -36,7 +34,7 @@ class Navigation extends React.Component{
 
     handleHistory = () => {
         return(
-            this.props.changeState('History')
+            this.props.changeState('BrowseReview')
         )
     }
 

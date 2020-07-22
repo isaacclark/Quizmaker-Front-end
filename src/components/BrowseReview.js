@@ -1,34 +1,24 @@
 import React from 'react';
-import {Col, Row} from 'antd';
-import BrowseCard from './BrowseCard';
+import {Col, Row, Button, Form, Input} from 'antd';
+import BrowseReviewCard from './BrowseReviewCard';
 
-let quizzes = []
+class BrowseReview extends React.Component{
 
-class Browse extends React.Component{
-    
     constructor(props){
         super(props);
-        
         this.state = {
-            visible : true
+            visible : false
         }
     }
 
-    callbackID = (targetID) =>{
-        return(
-            this.props.changeState('Quiz', targetID)
-        )
-    }
-   
+
     oneRow(quizzes, rowNumber){
         let row = quizzes.map(element => {
             return <>
             <Col span={6}>
-                <div onClick={this.handleClick}>
-                    {element !== null ? (
-                    <BrowseCard key={element.id} id={element.id} title={element.title} description={element.description}
-                        imgSrc = {element.imgURL} selectID = {this.callbackID} />) : null }
-                </div>
+                {element !== null ? (
+                <BrowseReviewCard key={element.id} id={element.id} title={element.title} description={element.description}
+                    imgSrc = {element.imgURL}/>) : null }
             </Col>
             </>
         }
@@ -50,7 +40,7 @@ class Browse extends React.Component{
         while(counter < this.props.quizzes.length){
             let quizzesPerRow = [];
 
-            for(let i=0; i < 3; i++){
+            for(let i=0; i < 1; i++){
                 if(counter < this.props.quizzes.length)  
                     quizzesPerRow.push(this.props.quizzes[counter]);
                 else
@@ -68,4 +58,4 @@ class Browse extends React.Component{
     }
 }
 
-export default Browse;
+export default BrowseReview;
