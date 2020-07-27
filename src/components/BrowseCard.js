@@ -1,9 +1,6 @@
 import React from 'react';
-import {Checkbox, Card} from 'antd';
+import {Card} from 'antd';
 
-function onChange(checkedValues) {
-    console.log('checked = ', checkedValues);
-}
 
 let answers = []
 
@@ -26,7 +23,6 @@ class BrowseCard extends React.Component{
     }
 
     render(){
-        let Meta = Card.Meta;
         return(
             <div onClick={this.handleClick}>
                 <Card>

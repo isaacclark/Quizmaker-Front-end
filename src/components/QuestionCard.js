@@ -24,6 +24,7 @@ class QuestionCard extends React.Component{
     }
 
     render(){
+        //console.log(this.props.answers);
         let Meta = Card.Meta;
         return <Card>
         <h3>{this.props.title}</h3>

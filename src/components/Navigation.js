@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React  from 'react';
 
 import '../App.css';
 
-let openComponent = ""
+//let openComponent = ""
 
 class Navigation extends React.Component{
 

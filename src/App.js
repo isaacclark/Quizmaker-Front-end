@@ -8,7 +8,7 @@ import Navigation from './components/Navigation';
 import QuizBuild from './components/QuizBuild';
 import BrowseReview from './components/BrowseReview';
 
-const options = 
+const options = [] /*
 [{ id: 1, title : "chicken", description : "chicken description", imgURL : "https://i.imgur.com/C4LnClT.png", 
   questions: [{title : "What is the capital of japan?", answers : [{ label :"Tokyo", value: "Tokyo"},{ label : "kyoto", value: "kyoto"},{ label : "Osaka", value: "Osaka"}]},
   {title: "What is the largest animal by mass?", answers : [{ label: "Elephant", value: "Elephant"}, {label: "Blue whale", value : "Blue whale"}]},
@@ -21,7 +21,7 @@ const options =
   {title: "True or false? 70% of the world's population live in the northern hemisphere.", answers : [{ label: "True", value: "True"}, {label: "False", value : "False"}]},
   {title: "True or false? 70% of the world's population live in the northern hemisphere.", answers : [{ label: "True", value: "True"}, {label: "False", value : "False"}]}
 ]}];
-
+*/
 class App extends React.Component {
   
   state = {
@@ -43,7 +43,7 @@ class App extends React.Component {
         return(     
           <div>
             <Navigation changeState = {this.callbackState}/>
-            {<Quiz options = {options} id = {this.state.id} key = {this.state.id} changeState = {this.callbackState}/>}
+            {<Quiz id = {this.state.id} key = {this.state.id} changeState = {this.callbackState}/>}
           </div>
         )
       case 'Signup':
@@ -64,7 +64,7 @@ class App extends React.Component {
         return(
           <div>
             <Navigation changeState = {this.callbackState}/>
-            <Browse quizzes = {options} changeState = {this.callbackState}/>
+            <Browse changeState = {this.callbackState}/>
           </div>
       )
       case 'QuizBuild':
