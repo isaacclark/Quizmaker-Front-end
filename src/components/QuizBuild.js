@@ -5,6 +5,7 @@ import BuildCard from './QuizBuildInputs';
 
 class QuizBuild extends React.Component{
     
+
     constructor(props){
         
         super(props);
@@ -13,7 +14,9 @@ class QuizBuild extends React.Component{
             visible : true,   
             title: "",
             description: "",
+            id: null,
             questions : [{
+                id: null,
                 question : "", 
                 options : "",
                 answers : ""
@@ -49,38 +52,139 @@ class QuizBuild extends React.Component{
         }))
     }
 
-    handleSubmit = e => { 
+    handleSubmit= (e) => { 
         e.preventDefault()
-        let newQuiz = [
-            title = e.target.title,
-            description = e.target.description,
-            imageURL = null,
-            author = null,
-        ]
 
+        //
+        var newQuiz = {
+            title : e.target.title.value, 
+            description : e.target.description.value, 
+            imageURL : '',
+            author : ''}
+        //post quiz data (title, description, author)   
+        fetch('http://localhost:3000/api/v1.0/quiz/quizBuild', {
+            method: 'POST',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({newQuiz})
+        })
+        //get back the id of the quiz now stored in the db
+        .then(res => {
+            return res.json()
+        })
+        .then(data =>  {
+            //run through all questions stored in the array
+            for(let i = 0; i <this.state.questions.length; i++){
+                //prepare json to send through
+                var newQuestion = {
+                    question : this.state.questions[i].question, 
+                    imageURL : '', 
+                    quizID : data[0]["LAST_INSERT_ID()"]
+                }
+                fetch('http://localhost:3000/api/v1.0/quiz/quizBuild/question', {
+                    method: 'POST',
+                    headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({newQuestion})
+                })        
+                .then(res => {
+                    return res.json()
+                })
+                .then(data =>  {
+                    //split the string of correct answers into variables
+                    let answerArray = []
+                    let corArray = this.state.questions[i].answers.split(',')
+                    for(let j = 0; j < corArray.length; j++){
+                        var newAnswer = {
+                            answer : corArray[j], 
+                            correct : 1, 
+                            questionID : data[0]["LAST_INSERT_ID()"]
+                        }   
+                        //push correct answer object into one large array of both correct and incorrect answers 
+                        answerArray.push(newAnswer)
+                    }
+                    //now for incorrect answers
+                    let incorArray = this.state.questions[i].options.split(',')
+                    for (let j = 0; j < incorArray.length; j++){
+                        var newAnswer = {
+                            answer : incorArray[j], 
+                            correct : 0, 
+                            questionID : data[0]["LAST_INSERT_ID()"]
+                        }   
+                        answerArray.push(newAnswer)
+                    }
+
+                    //randomise answerArray so order is stored randomly in db so it's displayed randomly to user upon attempt
+                    // https://javascript.info/task/shuffle
+
+                    let newAnswers = answerArray.sort(() => Math.random() - 0.5) 
+                    fetch('http://localhost:3000/api/v1.0/quiz/quizBuild/answers', {
+                        method: 'POST',
+                        headers: {
+                        'Accept' : 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({newAnswers})
+                    })        
+                    .then(res => {
+                       // return res.json()
+                    })
+                   
+                })
+            }
+        })
+        
+        
+
+
+        /*
+        .then(res => res.json())
+        .then(
+            (result) =>{
+                console.log(result)
+            }
+        )*/
+        /*
         let newQuestions = [
             question = "",
-            quizID = "" //get quiz id back from server
+            quizID = "", //get quiz id back from server
+            questionKey = author + quizKey
         ]
 
+        const postQuiz = await fetch('http://localhost:3000/api/v1.0/quizBuild', {
+            method: 'POST',
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({values})})
+       
+    
         let corrArray = target.value.answers.split(',')
 
         for(i = 0; i < corrArray.length; i++){
             let newAnswers = [
                 answer = "",
                 correct = True,
-                questionID = ""
+                questionID = "",
+                
             ]
         }
 
-     /*   fetch('http://localhost:3000/api/v1.0/quizBuild', {
+        var values = newQuiz.concat(new newQuestions)
+
+        fetch('http://localhost:3000/api/v1.0/quizBuild', {
             method: 'POST',
             headers: {
                 'Accept' : 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({values})})*/
-        
+            body: JSON.stringify({values})})
+     */   
     }
 
     handleChange = e => {
@@ -91,9 +195,22 @@ class QuizBuild extends React.Component{
         }
         else{
             this.setState({ [e.target.name]: e.target.value.toUpperCase()})
+            console.log(this.state.title)
         }
     }
+/*
+    handleTitleChange = e => {
+        this.setState({
+            title : e.target.value.title
+        })
+    }
 
+    handleDescriptionChange = e => {
+        this.setState({
+            description : e.target.value.description
+        })
+    }
+*/
     onchange = (data) => {
         console.log("Form>", data);
         console.log(this.state.questions)
@@ -106,10 +223,10 @@ class QuizBuild extends React.Component{
         return(
             <Form onSubmit={this.handleSubmit} onChange={this.handleChange}>
                 <label htmlFor="title">Title</label>
-                <input type="text" name="title" id="title" />
+                <input type="text" name="title" id="title" value={this.state.title} />
                 <label htmlFor="description">Description</label>
-                <input type="text" name="description" id="description"/>
-                <button onClick={this.addQuestion}>Add question</button>  
+                <input type="text" name="description" id="description" value={this.state.description}/>
+                <button type = "button" onClick={this.addQuestion}>Add question</button>  
                 <BuildCard questions={questions} />
                 <input type="submit" value="Submit"/> 
             </Form>
