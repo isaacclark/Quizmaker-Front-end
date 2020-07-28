@@ -1,10 +1,5 @@
 import React from 'react';
 import {Checkbox, Card} from 'antd';
-
-function onChange(checkedValues) {
-    console.log('checked = ', checkedValues);
-}
-
 let answers = []
 
 class QuestionCard extends React.Component{
@@ -17,18 +12,22 @@ class QuestionCard extends React.Component{
         }
 
         this.handleClick = this.handleClick.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     handleClick(){
         this.props.clicked(this.props.id);
     }
 
+    onChange(e) {
+        this.props.clicked(this.props.id, e);
+    }
+
     render(){
-        //console.log(this.props.answers);
         let Meta = Card.Meta;
         return <Card>
         <h3>{this.props.title}</h3>
-        <Checkbox.Group options = {this.props.answers} onChange={onChange} style={{margin: 'center'}}/>
+        <Checkbox.Group options = {this.props.answers} style={{margin: 'center'}} onChange={this.onChange} className="checkbox"/>
         </Card>;
     }
 }

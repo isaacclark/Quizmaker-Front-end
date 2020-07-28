@@ -54,14 +54,13 @@ class QuizBuild extends React.Component{
 
     handleSubmit= (e) => { 
         e.preventDefault()
-
-        //
         var newQuiz = {
             title : e.target.title.value, 
             description : e.target.description.value, 
             imageURL : '',
             author : ''}
         //post quiz data (title, description, author)   
+     
         fetch('http://localhost:3000/api/v1.0/quiz/quizBuild', {
             method: 'POST',
             headers: {
