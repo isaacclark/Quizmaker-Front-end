@@ -1,9 +1,9 @@
 import React from 'react';
 import {Col, Row} from 'antd';
-import BrowseCard from './BrowseCard';
+import BrowseHistoryCard from './BrowseHistoryCard';
 var userID = require('../data');
 
-class Browse extends React.Component{
+class BrowseHistory extends React.Component{
     
     constructor(props){
         super(props);
@@ -11,24 +11,26 @@ class Browse extends React.Component{
         this.state = {
             userID : userID.userID,
             visible : true,
-            quizzes : []
+            quizzes : [],
         }
     }
 
     callbackID = (targetID) =>{
         return(
-            this.props.changeState('Quiz', targetID)
+            this.props.changeState('History', targetID)
         )
     }
     
     componentDidMount(){
-        fetch("http://localhost:3000/api/v1.0/quiz/")
+        let id = this.state.userID
+        console.log(id)
+        fetch(`http://localhost:3000/api/v1.0/history/${id}`)
         .then(res => res.json())
         .then(
             (result) => {
                 this.setState({
-                quizzes: result
-            });
+                    quizzes: result
+                });
             },
             (error) => {
             this.setState({
@@ -36,6 +38,7 @@ class Browse extends React.Component{
             });
             }
         )
+        
     }
 
     oneRow(options, rowNumber){
@@ -44,8 +47,8 @@ class Browse extends React.Component{
             <Col span={6}>
                 <div onClick={this.handleClick}>
                     {element !== null ? (
-                    <BrowseCard key={element.id} id={element.id} title={element.title} description={element.description}
-                        imgSrc = {element.imgURL !== null ? (element.imageURL) : ""}   selectID = {this.callbackID} />) : null }
+                    <BrowseHistoryCard key={element.id} id={element.id} title={element.title} description={element.description}
+                        imgSrc = {element.imgURL !== null ? (element.imageURL) : ""}   selectID = {this.callbackID} score ={element.score} />) : null }
                 </div>
             </Col>
             </>
@@ -86,4 +89,4 @@ class Browse extends React.Component{
     }
 }
 
-export default Browse;
+export default BrowseHistory;

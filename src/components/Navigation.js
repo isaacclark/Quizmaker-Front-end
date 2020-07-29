@@ -1,8 +1,6 @@
 import React  from 'react';
-
 import '../App.css';
-
-//let openComponent = ""
+var userID = require('../data');
 
 class Navigation extends React.Component{
 
@@ -34,7 +32,7 @@ class Navigation extends React.Component{
 
     handleHistory = () => {
         return(
-            this.props.changeState('BrowseReview')
+            this.props.changeState('BrowseHistory')
         )
     }
 
@@ -52,6 +50,7 @@ class Navigation extends React.Component{
                <li onClick= {this.handleSignup}>Signup</li>
                <li onClick= {this.handleHistory}>History</li>
                <li onClick= {this.handleQuizBuild}>Create a quiz</li>
+               <li>{userID.userName}</li>
             </ul>
         )
     }

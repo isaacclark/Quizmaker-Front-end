@@ -1,9 +1,8 @@
 import React from 'react';
 import {Col, Row, Form} from 'antd';
 import QuestionCard from './QuestionCard';
+var userID = require('../data');
 
-let questions= []
-let counter = 0
 
 class Quiz extends React.Component{
     
@@ -29,11 +28,12 @@ class Quiz extends React.Component{
                 id : 0,
                 answer : "",
                 correct : false,
-                questionID : 0
+                questionID : 0,
+                checked : ""
             }],
             test : [{
                 id : null,
-                userID : 1,
+                userID : userID.userID,
                 quizID : 0,
                 completed : 0
             }],
@@ -51,7 +51,7 @@ class Quiz extends React.Component{
     handleSubmit = async (e) =>{
         e.preventDefault()
         var newTest = {
-            userID : this.state.test.userID,
+            userID : userID.userID,
             quizID : this.props.id,
             completed : 0
         }
@@ -64,10 +64,8 @@ class Quiz extends React.Component{
             body: JSON.stringify({newTest})
         })
         const result = await postTest.json()
-        console.log(result)
         let userAnswersArray = []
         var userAnswersCopy = this.state.userAnswers
-        console.log(userAnswersCopy)
         for(let i = 1; i < userAnswersCopy.length; i++){
             var newAnswer = {
                 answer : userAnswersCopy[i].answer,
@@ -76,7 +74,7 @@ class Quiz extends React.Component{
             }
             userAnswersArray.push(newAnswer)
         }
-        const postAnswers = await fetch('http://localhost:3000/api/v1.0/quiz/answers', {
+        await fetch('http://localhost:3000/api/v1.0/quiz/answers', {
             method: 'POST',
             headers: {
             'Accept' : 'application/json',
@@ -95,12 +93,12 @@ class Quiz extends React.Component{
 
 
     handleChange = (questID , e)  => {
-        if(e != undefined){   
+        if(e !== undefined){   
             let answers = e.join()
             var exists = false;
             var userAnswersCopy = this.state.userAnswers;
             for (let i = 0; i < userAnswersCopy.length; i++){
-                if (userAnswersCopy[i].questionID == questID){
+                if (userAnswersCopy[i].questionID === questID){
                     exists = true;
                     if (exists){
                         userAnswersCopy[i].answer = answers
@@ -109,7 +107,7 @@ class Quiz extends React.Component{
                 else{
                 }
             }
-            if (exists == false){ 
+            if (exists === false){ 
                 this.setState((prevState) => ({
                     userAnswers: [...prevState.userAnswers, {
                         id : null,
@@ -125,49 +123,66 @@ class Quiz extends React.Component{
                 })
             }
         }
-       // console.log(this.state.userAnswers)
     }
 
     //Fetching quiz info & questions
     async componentDidMount(){    
-
-        let answersArray= [];
-
         //fetch quiz from db
         const quizcall = await fetch(`http://localhost:3000/api/v1.0/quiz/${this.props.id}`)
         const quizres = await quizcall.json()
-        const questioncall = await fetch(`http://localhost:3000/api/v1.0/quiz/${this.props.id}/questions/`)
+        const questioncall = await fetch(`http://localhost:3000/api/v1.0/quiz/${this.props.id}/questions`)
         const questionres = await questioncall.json()
-        var testDummy = {
-            id : null,
-            userID : 1,
-            quizID : quizres.id,
-            completed : 0
-        }        
+          
         this.setState({
             quiz : quizres,
             questions : questionres,
-            test: testDummy
+
         })
-
-        await Promise.all(
-            questionres.map(async (id) => {
-                var s = JSON.stringify(id.id);
-                var d = JSON.parse(s);  
-
-                let answercall = await fetch(`http://localhost:3000/api/v1.0/quiz/${this.props.id}/questions/${d}`)
-                let answerres = await answercall.json()
-                answerres.map(id => {
-                    answersArray.push(id)
-                })
-                
-               // answersArray.push(answerres)
-               
+        var doesExist = false
+        //check if quiz alrdy been attempted by user and try to return answers 
+        const testcheck = await fetch(`http://localhost:3000/api/v1.0/quiz/savetest/${this.props.id}/${userID.userID}`)
+        const testAns = await testcheck.json()
+        if (testAns !== undefined & testAns.length !== 0) {
+           doesExist = true;
+        }
+        let checkedAns = [];
+        var AnswersArray = [];
+            for(let k = 0; k < questionres.length; k++){
+                //if fetch request for tests with same userID as current user and same quizID as current quiz
+                if (doesExist === true){
+                    //if the questionid for the testanswer is equal to the current questions id assign testanswer to checkedAns
+                   for(let i = 0; i < testAns.length; i++){
+                      
+                        if(testAns[i].questionID === questionres[k].id){
+                            checkedAns = testAns[i]
+                        }
+                    }
+                   
                 }
-            )
-        )
+                //fetch answers for current question
+                let answercall = await fetch(`http://localhost:3000/api/v1.0/quiz/${this.props.id}/questions/${questionres[k].id}`)
+                let answerresult = await answercall.json()
+                let answerres = []
+                //Assign all answers for current question into array and add the property "checked" to each element and define it as false
+                for(let i = 0; i < answerresult.length; i++){
+                    answerres[i] = {
+                        id : answerresult[i].id,
+                        answer : answerresult[i].answer,
+                        correct : answerresult[i].correct,
+                        questionID : questionres[k].id,
+                        checked : "notChecked"
+                    } 
+                    if (checkedAns.answer === answerres[i].answer){    //compare test answer value with answer value,if true assign true to the quiz answer's checked variable
+                        answerres[i].checked = "isChecked"
+                    }          
+                }
+                for(let j = 0; j < answerres.length; j++){
+                    AnswersArray.push(answerres[j])
+                }      
+            }
+        
         this.setState({
-            answers : answersArray
+            answers : AnswersArray
         })
 
     }  
@@ -175,24 +190,25 @@ class Quiz extends React.Component{
         
     oneRow(questions, rowNumber, answers){
         let answerlabels = []
-    
+        let setDefaultCheck = []
         let row = questions.map((element, i) => {
             answers.map((index) =>{
                 if (index.questionID === element.id){
+                    if(index.checked === "isChecked"){
+                        setDefaultCheck.push(index.answer)
+                    }   
                     answerlabels.push(index.answer)
-                }
-                
+                } 
             })
-        
             return <>
                 <Col span={6}>
                     {element !== null ? (
-                        <QuestionCard key={element.id} id={element.id} title={element.question} answers={answerlabels} extra={counter}
-                        clicked={this.handleChange} />) : null }
+                        <QuestionCard key={element.id} id={element.id} title={element.question} 
+                        defaultChecked={setDefaultCheck !== undefined ? setDefaultCheck : null}answers={answerlabels} 
+                        clicked={this.handleChange}  />) : null }
                 </Col>
             </>
-        }
-        );
+        });
 
         return <div key={rowNumber}>
             <Row type="flex" justify="center">
@@ -226,13 +242,14 @@ class Quiz extends React.Component{
         }
         return <>
             <h1>{this.state.quiz.title}</h1>
-            <img src = {this.state.quiz.imageURL}/>
+            <img src = {this.state.quiz.imageURL !== null ? this.state.quiz.imageURL : ""}/>
             <h3>{this.state.quiz.description}</h3>
             <Form onSubmit= {this.handleSubmit} onChange={this.handleChange}>
                 {allRows}
                 <br/>
                 <input type="submit" value="Submit"/> 
             </Form>
+            
         </>;
 
 

@@ -1,9 +1,10 @@
 import React from 'react';
-import {Checkbox, Card} from 'antd';
+import {Card} from 'antd';
+
 
 let answers = []
 
-class BrowseReviewCard extends React.Component{
+class BrowseHistoryCard extends React.Component{
     
     constructor(props){
         super(props);
@@ -16,16 +17,18 @@ class BrowseReviewCard extends React.Component{
     }
 
     handleClick = () => {
-    
+        return(
+            this.props.selectID(this.props.id)
+        )
     }
 
     render(){
-        let Meta = Card.Meta;
         return(
             <div onClick={this.handleClick}>
                 <Card>
                     <h3>{this.props.title}</h3>
                     <img src={this.props.imgSrc}></img>
+                    <h2>{this.props.score}</h2>
                     <p>{this.props.description}</p>
                 </Card>
             </div>
@@ -33,4 +36,4 @@ class BrowseReviewCard extends React.Component{
     }
 }
 
-export default BrowseReviewCard;
+export default BrowseHistoryCard;

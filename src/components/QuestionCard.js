@@ -1,6 +1,7 @@
 import React from 'react';
 import {Checkbox, Card} from 'antd';
 let answers = []
+let defaultChecked = []
 
 class QuestionCard extends React.Component{
     
@@ -15,6 +16,7 @@ class QuestionCard extends React.Component{
         this.onChange = this.onChange.bind(this);
     }
 
+
     handleClick(){
         this.props.clicked(this.props.id);
     }
@@ -24,11 +26,13 @@ class QuestionCard extends React.Component{
     }
 
     render(){
+        let newval = this.props.defaultChecked
         let Meta = Card.Meta;
         return <Card>
         <h3>{this.props.title}</h3>
-        <Checkbox.Group options = {this.props.answers} style={{margin: 'center'}} onChange={this.onChange} className="checkbox"/>
+        <Checkbox.Group options = {this.props.answers} style={{margin: 'center'}} defaultValue={newval} onChange={this.onChange} className="checkbox"/>
         </Card>;
+        
     }
 }
 

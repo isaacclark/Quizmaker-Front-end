@@ -1,6 +1,4 @@
 import React from 'react';
-//import App from '../App.js';
-
 import {
     Form,
     Input,
@@ -8,11 +6,11 @@ import {
     Checkbox,
     Button,
 } from 'antd';
+var userID = require('../data');
 
 class LoginForm extends React.Component {
     state = {
-        confirmDirty : false,
-        addedSuccessfully : false,
+        userID: userID.userID,
         showSuccess: false,
         showError: false,
         errorCode: 400,
@@ -23,25 +21,27 @@ class LoginForm extends React.Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values)=> {
             if(!err){
-                console.log('Received values of forms: ', values);
-
-                fetch('http://localhost:3000/api/v1.0/users', {
+                fetch('http://localhost:3000/api/v1.0/users/login', {
                     method: 'POST',
                     headers: {
                         'Accept' : 'application/json',
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({values})
-                }).then(res => {
-                    if(res.ok)
-                        this.setState({addedSuccessfully:true})
-                    else
+                    body: JSON.stringify(values)
+                }).then(res => res.json())
+                .then((result) => {
+                    if(result != null){
+                        this.setState({showSuccess:true})
+                        this.checkResponse(result)
+                    }
+                    else{
                         this.setState({
-                            addedSuccessfully:false,
-                            errorCode: res.status
+                            showSuccess:false,
+                            errorCode: result.status
                         });
-                    return res.json()
-                }).then(data => this.checkResponse(data))
+                        //return {message: "Email or password incorrect"}
+                    }
+                })//.then(data => {this.checkResponse(data)})
             }
         });
     };
@@ -52,28 +52,18 @@ class LoginForm extends React.Component {
         const { value } = e.target;
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     };
-    compareToFirstPassword = (rule, value, callback) => {
-        const { form } = this.props;
-        if (value && this.state.confirmDirty) {
-            form.validateFields(['confirm'], { force:true});
-        }
-        callback();
-    };
-    validateToNextPassword = (rule, value, callback) => {
-        const { form } = this.props;
-        if (value && this.state.confirmDirty){
-            form.validateFields(['confirm'], { force:true });
-        }
-        callback();
-    };
-    checkResponse = (data) => {
-
-        if(this.state.addedSuccessfully){
-            this.props.form.resetFields();
+    checkResponse = (data) => { 
+        if(this.state.showSuccess){
             this.setState({
                 showSuccess:true,
-                showError:false
+                showError:false,
             });
+            userID.userID = data.id;
+            userID.userName=data.username;
+            console.log(data)
+            return(
+                this.props.changeState('Browse')
+            )
         }
         else{
             this.setState({
@@ -147,21 +137,12 @@ class LoginForm extends React.Component {
                     })(<Input.Password />)}
                 </Form.Item>
                 <Form.Item {...tailFormItemLayout}>
-                    {getFieldDecorator('agreement', { 
-                        valuePropName: 'checked',
-                    })(
-                        <Checkbox>
-                            I have read the <a href="">agreement</a>
-                        </Checkbox>,
-                    )}
-                </Form.Item>
-                <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit" onClick={ () => { 
                     }}>
                         Login
                     </Button>
                 </Form.Item>
-                {this.state.showSuccess ? <Alert message="account created successfully" type="success" /> || this.invisible() : null}
+                {this.state.showSuccess ? <Alert message="successfully logged in" type="success" /> || this.invisible() : null}
                 {this.state.showError ? <Alert message={this.state.errorMessage} type="error"/>  :null}
             </Form>
         );

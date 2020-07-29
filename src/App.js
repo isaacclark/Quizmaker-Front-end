@@ -6,7 +6,8 @@ import Login from './components/Login';
 import Browse from './components/Browse';
 import Navigation from './components/Navigation';
 import QuizBuild from './components/QuizBuild';
-import BrowseReview from './components/BrowseReview';
+import BrowseHistory from './components/BrowseHistory';
+import History from './components/History';
 
 const options = [] /*
 [{ id: 1, title : "chicken", description : "chicken description", imgURL : "https://i.imgur.com/C4LnClT.png", 
@@ -26,7 +27,7 @@ class App extends React.Component {
   
   state = {
     visible: true,
-    whichComponentToShow: 'Browse',
+    whichComponentToShow: 'Login',
     id: 0
   }
   
@@ -50,14 +51,14 @@ class App extends React.Component {
         return(
           <div>  
             <Navigation changeState = {this.callbackState}/>
-            {<Signup options = {options}/>}
+            {<Signup options = {options} changeState = {this.callbackState}/>}
           </div>
       )
       case 'Login':
         return(
           <div>   
             <Navigation changeState = {this.callbackState}/>  
-            {<Login options = {options}/>}
+            {<Login options = {options} changeState = {this.callbackState}/>}
           </div>
       )
       case 'Browse':
@@ -74,11 +75,18 @@ class App extends React.Component {
             <QuizBuild options = {options} changeState = {this.callbackState}/>
           </div>
       )
-      case 'BrowseReview':
+      case 'BrowseHistory':
         return(
           <div>
             <Navigation changeState = {this.callbackState}/>
-            <BrowseReview quizzes = {options}/>
+            <BrowseHistory changeState = {this.callbackState}/>
+          </div>
+      )
+      case 'History':
+        return(
+          <div>
+            <Navigation changeState = {this.callbackState}/>
+            <History  id = {this.state.id} key = {this.state.id} changeState = {this.callbackState}/>
           </div>
       )
       default: 

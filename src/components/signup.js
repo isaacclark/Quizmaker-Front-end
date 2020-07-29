@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
     Form,
     Input,
@@ -7,6 +6,8 @@ import {
     Checkbox,
     Button,
 } from 'antd';
+
+var userID = require('../data');
 
 class RegistrationForm extends React.Component {
     state = {
@@ -24,7 +25,7 @@ class RegistrationForm extends React.Component {
             if(!err){
                 console.log('Received values of forms: ', values);
 
-                fetch('http://localhost:3000/api/v1.0/users', {
+                fetch('http://localhost:3000/api/v1.0/users/signup', {
                     method: 'POST',
                     headers: {
                         'Accept' : 'application/json',
@@ -44,6 +45,10 @@ class RegistrationForm extends React.Component {
             }
         });
     };
+    handleUserName = ()=> {
+        this.setState({responseStatus:"nothing"})
+    }
+
     handleEmail = ()=> {
         this.setState({responseStatus:"nothing"})
     }
@@ -73,6 +78,9 @@ class RegistrationForm extends React.Component {
                 showSuccess:true,
                 showError:false
             });
+            return(
+                this.props.changeState('Browse')
+            )
         }
         else{
             this.setState({
@@ -116,6 +124,16 @@ class RegistrationForm extends React.Component {
 
         return(
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+                <Form.Item label="username" hasFeedback validateStatus={this.state.responseStatus} help={this.state.errorMessage}>
+                    {getFieldDecorator('username', { 
+                        rules: [
+                        {
+                            required:true,
+                            message: 'Please input a username',
+                        },
+                    ],
+                    })(<Input onChange={this.handleUserName} />)}
+                </Form.Item>
                 <Form.Item label="Email" hasFeedback validateStatus={this.state.responseStatus} help={this.state.errorMessage}>
                     {getFieldDecorator('email', { 
                         rules: [{
@@ -127,7 +145,7 @@ class RegistrationForm extends React.Component {
                             message: 'Please input your email',
                         },
                     ],
-                    })(<Input addonBefore={prefixEmail} onChange={this.handleEmail} />)}
+                    })(<Input addonBefore={prefixEmail} onChange={this.handleEmail}  />)}
                 </Form.Item>
                 <Form.Item label="Password" hasFeedback>
                     {getFieldDecorator('password', { 

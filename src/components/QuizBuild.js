@@ -1,6 +1,7 @@
 import React from 'react';
 import {Col, Row, Button, Form, Input} from 'antd';
 import BuildCard from './QuizBuildInputs';
+var userID = require('../data');
 
 
 class QuizBuild extends React.Component{
@@ -32,16 +33,6 @@ class QuizBuild extends React.Component{
             this.props.changeState('Browse')
         )
     }
-/*
-    handler = (index) => {
-        let questionscopy = this.state.questions;
-        if (questionscopy > 1){
-          questionscopy.splice(index,1);
-        }
-        this.setState({
-            questions: questionscopy
-        })
-    }*/
 
     addQuestion = e => {
         this.setState((prevState) => ({
@@ -58,10 +49,10 @@ class QuizBuild extends React.Component{
             title : e.target.title.value, 
             description : e.target.description.value, 
             imageURL : '',
-            author : ''}
+            author : userID.userID}
         //post quiz data (title, description, author)   
      
-        fetch('http://localhost:3000/api/v1.0/quiz/quizBuild', {
+        fetch('http://localhost:3000/api/v1.0/quizBuild/', {
             method: 'POST',
             headers: {
                 'Accept' : 'application/json',
@@ -82,7 +73,7 @@ class QuizBuild extends React.Component{
                     imageURL : '', 
                     quizID : data[0]["LAST_INSERT_ID()"]
                 }
-                fetch('http://localhost:3000/api/v1.0/quiz/quizBuild/question', {
+                fetch('http://localhost:3000/api/v1.0/quizBuild/question', {
                     method: 'POST',
                     headers: {
                     'Accept' : 'application/json',
@@ -121,7 +112,7 @@ class QuizBuild extends React.Component{
                     // https://javascript.info/task/shuffle
 
                     let newAnswers = answerArray.sort(() => Math.random() - 0.5) 
-                    fetch('http://localhost:3000/api/v1.0/quiz/quizBuild/answers', {
+                    fetch('http://localhost:3000/api/v1.0/quizBuild/answers', {
                         method: 'POST',
                         headers: {
                         'Accept' : 'application/json',
@@ -136,54 +127,6 @@ class QuizBuild extends React.Component{
                 })
             }
         })
-        
-        
-
-
-        /*
-        .then(res => res.json())
-        .then(
-            (result) =>{
-                console.log(result)
-            }
-        )*/
-        /*
-        let newQuestions = [
-            question = "",
-            quizID = "", //get quiz id back from server
-            questionKey = author + quizKey
-        ]
-
-        const postQuiz = await fetch('http://localhost:3000/api/v1.0/quizBuild', {
-            method: 'POST',
-            headers: {
-                'Accept' : 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({values})})
-       
-    
-        let corrArray = target.value.answers.split(',')
-
-        for(i = 0; i < corrArray.length; i++){
-            let newAnswers = [
-                answer = "",
-                correct = True,
-                questionID = "",
-                
-            ]
-        }
-
-        var values = newQuiz.concat(new newQuestions)
-
-        fetch('http://localhost:3000/api/v1.0/quizBuild', {
-            method: 'POST',
-            headers: {
-                'Accept' : 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({values})})
-     */   
     }
 
     handleChange = e => {
