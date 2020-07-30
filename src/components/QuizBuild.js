@@ -16,6 +16,7 @@ class QuizBuild extends React.Component{
             title: "",
             description: "",
             id: null,
+            time : null,
             questions : [{
                 id: null,
                 question : "", 
@@ -24,15 +25,9 @@ class QuizBuild extends React.Component{
             }],
         }
 
-        this.handleClick = this.handleClick.bind(this);
-      //  this.handler = this.handler.bind(this);
     }
 
-    handleClick = () =>{
-        return(
-            this.props.changeState('Browse')
-        )
-    }
+
 
     addQuestion = e => {
         this.setState((prevState) => ({
@@ -43,13 +38,23 @@ class QuizBuild extends React.Component{
         }))
     }
 
+    removeQuestion = e => {
+        var questionsCopy = this.state.questions
+        questionsCopy.pop()
+        this.setState({
+            questions : questionsCopy
+        })
+    }
+    
     handleSubmit= (e) => { 
         e.preventDefault()
         var newQuiz = {
             title : e.target.title.value, 
             description : e.target.description.value, 
             imageURL : '',
-            author : userID.userID}
+            author : userID.userID,
+            time : e.target.time.value
+        }
         //post quiz data (title, description, author)   
      
         fetch('http://localhost:3000/api/v1.0/quizBuild/', {
@@ -127,6 +132,10 @@ class QuizBuild extends React.Component{
                 })
             }
         })
+        alert("Quiz created!")
+        return(
+            this.props.changeState('Browse')
+        )
     }
 
     handleChange = e => {
@@ -168,7 +177,11 @@ class QuizBuild extends React.Component{
                 <input type="text" name="title" id="title" value={this.state.title} />
                 <label htmlFor="description">Description</label>
                 <input type="text" name="description" id="description" value={this.state.description}/>
+                <label htmlFor="time">Time</label>
+                <input type="time" id="time" name="time" values={this.state.time}/>
+                <div/>
                 <button type = "button" onClick={this.addQuestion}>Add question</button>  
+                <button type = "button" onClick={this.removeQuestion}>Remove last question</button>  
                 <BuildCard questions={questions} />
                 <input type="submit" value="Submit"/> 
             </Form>

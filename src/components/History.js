@@ -71,7 +71,6 @@ class Quiz extends React.Component{
                 })
             }
         }
-       // console.log(this.state.userAnswers)
     }
 
     //Fetching quiz info & questions
@@ -82,15 +81,12 @@ class Quiz extends React.Component{
         //fetch quiz from db
         const testcall = await fetch(`http://localhost:3000/api/v1.0/history/test/${this.props.id}`)
         const testResult = await testcall.json()
-        console.log(testResult)
         const questioncall = await fetch(`http://localhost:3000/api/v1.0/history/${this.props.id}/questions`)
         const questionResult = await questioncall.json()    
-        console.log(questionResult) 
         this.setState({
             test : testResult,
             questions : questionResult,
         })
-
         /*await Promise.all(
             questionResult.map(async (id) => {
                 var s = JSON.stringify(id.id);
@@ -120,7 +116,8 @@ class Quiz extends React.Component{
             return <>
                 <Col span={6}>
                     {element !== null ? (
-                        <HistoryCard key={element.id} id={element.id} title={element.question} userAnswer={element.userAnswer} quizAnswer= {element.quizAnswer} clicked={this.handleChange} extra={counter}/>) : null }
+                        <HistoryCard key={element.id} id={element.id} title={element.question} 
+                        userAnswer={element.answer === "" ? "" : element.userAnswer} quizAnswer= {element.quizAnswer} clicked={this.handleChange} extra={counter}/>) : null }
                 </Col>
             </>
         }

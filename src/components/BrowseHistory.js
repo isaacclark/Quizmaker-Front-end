@@ -9,36 +9,96 @@ class BrowseHistory extends React.Component{
         super(props);
         
         this.state = {
+            open : false,
             userID : userID.userID,
             visible : true,
             quizzes : [],
         }
+        this.handleComplete = this.handleComplete.bind(this)
+        this.handleIncomplete = this.handleIncomplete.bind(this)
     }
 
     callbackID = (targetID) =>{
-        return(
-            this.props.changeState('History', targetID)
-        )
+        if(this.state.open === false){
+            return(
+                this.props.changeState('History', targetID)
+            )
+        }
+        else{
+            
+            fetch(`http://localhost:3000/api/v1.0/history/openquiz/${targetID}`)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    return(
+                        this.props.changeState('Quiz', result[0].quizID)
+                    )
+                },
+                (error) => {
+                    this.setState({
+                        error
+                    });
+                }  
+            ) 
+           
+        }
     }
     
-    componentDidMount(){
+    handleComplete(){
         let id = this.state.userID
-        console.log(id)
-        fetch(`http://localhost:3000/api/v1.0/history/${id}`)
+        fetch(`http://localhost:3000/api/v1.0/history/closed/${id}`)
         .then(res => res.json())
         .then(
             (result) => {
                 this.setState({
+                    open:false,
                     quizzes: result
                 });
             },
+            (error) => {
+                this.setState({
+                    error
+                });
+            }  
+        ) 
+    }
+
+    handleIncomplete(){
+      
+        let id = this.state.userID
+        fetch(`http://localhost:3000/api/v1.0/history/open/${id}`)
+        .then(res => res.json())
+        .then(
+            (result) => {
+                this.setState({
+                    open:true,
+                    quizzes: result
+                });
+            },
+            (error) => {
+                this.setState({
+                    error
+                });
+            }
+        )  
+    }
+
+    componentDidMount(){
+        let id = this.state.userID
+            fetch(`http://localhost:3000/api/v1.0/history/closed/${id}`)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                        quizzes: result
+                    });
+                },
             (error) => {
             this.setState({
                 error
             });
             }
-        )
-        
+        )   
     }
 
     oneRow(options, rowNumber){
@@ -48,7 +108,7 @@ class BrowseHistory extends React.Component{
                 <div onClick={this.handleClick}>
                     {element !== null ? (
                     <BrowseHistoryCard key={element.id} id={element.id} title={element.title} description={element.description}
-                        imgSrc = {element.imgURL !== null ? (element.imageURL) : ""}   selectID = {this.callbackID} score ={element.score} />) : null }
+                        imgSrc = {element.imgURL !== null ? (element.imageURL) : ""}   selectID = {this.callbackID} time ={element.time} score={element.score}/>) : null }
                 </div>
             </Col>
             </>
@@ -84,6 +144,12 @@ class BrowseHistory extends React.Component{
 
         }
         return <>
+        <div>
+            <ul>
+                <button onClick={this.handleComplete}>Completed tests</button>
+                <button onClick={this.handleIncomplete}>Incomplete tests</button>
+            </ul>
+        </div>
             {allRows}
         </>;
     }

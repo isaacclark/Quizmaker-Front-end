@@ -36,9 +36,10 @@ class HistoryCard extends React.Component{
         return( 
             <div>
                 <Card style = {mystyle}>
-                    <h3>{this.props.title}</h3>
-                    <p>{this.props.quizAnswer}</p>
-                    <p>{this.props.userAnswer}</p>
+                    <h3>Question : {this.props.title}</h3>
+                    <p>Your answer : {this.props.userAnswer}</p>
+                    <p>Actual answer : {this.props.quizAnswer}</p>
+                
                 </Card>
             </div>
         )

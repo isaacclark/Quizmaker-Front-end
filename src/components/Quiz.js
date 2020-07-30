@@ -1,6 +1,7 @@
 import React from 'react';
 import {Col, Row, Form} from 'antd';
 import QuestionCard from './QuestionCard';
+import Timer from './Timer';
 var userID = require('../data');
 
 
@@ -11,12 +12,16 @@ class Quiz extends React.Component{
         
         this.state = { 
             visible : true,
+            secondmount: false,
+            completed: 0,
+            time: null,
             quiz : [{
                 id : 0, 
                 title : "", 
                 description : "", 
                 imageURL: "", 
-                author: ""
+                author: "",
+                time: null
             }],
             questions : [{ 
                     id : 0,
@@ -35,7 +40,7 @@ class Quiz extends React.Component{
                 id : null,
                 userID : userID.userID,
                 quizID : 0,
-                completed : 0
+                completed : 0,
             }],
             userAnswers : [{
                 id : null,
@@ -46,6 +51,20 @@ class Quiz extends React.Component{
         }
 
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleComplete = this.handleComplete.bind(this)
+        this.handleIncomplete = this.handleIncomplete.bind(this)
+    }
+
+    handleComplete(){
+        this.setState({
+            completed: 1
+        })
+    }
+
+    handleIncomplete(){
+        this.setState({
+            completed: 0
+        })
     }
 
     handleSubmit = async (e) =>{
@@ -53,7 +72,8 @@ class Quiz extends React.Component{
         var newTest = {
             userID : userID.userID,
             quizID : this.props.id,
-            completed : 0
+            completed : this.state.completed,
+            time : this.state.time
         }
         const postTest = await fetch('http://localhost:3000/api/v1.0/quiz/', {
             method: 'POST',
@@ -64,12 +84,29 @@ class Quiz extends React.Component{
             body: JSON.stringify({newTest})
         })
         const result = await postTest.json()
+        let resultTestID = null;
+        if(result[0] === undefined){
+            resultTestID = result
+        }
+        else{
+            resultTestID = result[0]["LAST_INSERT_ID()"]
+        }
         let userAnswersArray = []
         var userAnswersCopy = this.state.userAnswers
-        for(let i = 1; i < userAnswersCopy.length; i++){
+        if(userAnswersCopy === null){
+            userAnswersCopy = [
+                {
+                    id : null,
+                    answer : "",
+                    testID : null,
+                    questionID : this.state.answers[0].id
+                }
+            ]
+        }
+        for(let i = 0; i < userAnswersCopy.length; i++){
             var newAnswer = {
                 answer : userAnswersCopy[i].answer,
-                testID : result[0]["LAST_INSERT_ID()"],
+                testID : resultTestID,
                 questionID : userAnswersCopy[i].questionID
             }
             userAnswersArray.push(newAnswer)
@@ -83,15 +120,51 @@ class Quiz extends React.Component{
         body: JSON.stringify({userAnswersArray})
         }) 
         let TestID = userAnswersArray[0].testID;
-        const testscore = await fetch(`http://localhost:3000/api/v1.0/quiz/score/${TestID}`)
-        const score = await testscore.json();
-        alert("you got " + score + " out of " + this.state.questions.length)
+        if(this.state.completed === 1){
+            const testscore = await fetch(`http://localhost:3000/api/v1.0/quiz/score/${TestID}`)
+            const score = await testscore.json();
+            alert("you got " + score + " out of " + this.state.questions.length)
+        }
         return(
             this.props.changeState('Browse')
-        )
+        )  
     }
+    getTimeback = (timeData) =>{
+        let minString, secString, timeString = "";
+        switch(timeData.minutes.toString().length){
+            case 0: 
+                minString = "00";
+                break;
+            case 1:
+                minString = "0" + timeData.minutes.toString();
+                break;
+            default:
+                minString = timeData.minutes.toString();
+        }
+        switch(timeData.seconds.toString().length){
+            case 0: 
+                secString = "00";
+                break;
+            case 1:
+                secString = "0" + timeData.seconds.toString();
+                break;
+            default:
+                secString = timeData.seconds.toString();
+        }
 
-
+        timeString = ( minString + ":" + secString)
+       // console.log(timeString)
+        this.setState({
+            time : timeString
+        })   
+        if(timeData.seconds === 0 && timeData.minutes === 0){
+            this.setState({
+                completed : 1
+            })   
+            this.handleSubmit()
+        }
+    }
+    
     handleChange = (questID , e)  => {
         if(e !== undefined){   
             let answers = e.join()
@@ -132,11 +205,10 @@ class Quiz extends React.Component{
         const quizres = await quizcall.json()
         const questioncall = await fetch(`http://localhost:3000/api/v1.0/quiz/${this.props.id}/questions`)
         const questionres = await questioncall.json()
-          
+      
         this.setState({
-            quiz : quizres,
+            quiz : quizres[0],
             questions : questionres,
-
         })
         var doesExist = false
         //check if quiz alrdy been attempted by user and try to return answers 
@@ -145,6 +217,17 @@ class Quiz extends React.Component{
         if (testAns !== undefined & testAns.length !== 0) {
            doesExist = true;
         }
+        const testTimeCall = await fetch(`http://localhost:3000/api/v1.0/quiz/getTest/${this.props.id}/${userID.userID}`)
+        const testTime = await testTimeCall.json()
+        if(testTime.length > 0){
+            let quizTemp = this.state.quiz
+            quizTemp.time = testTime[0].time
+            this.setState({
+                time : quizTemp.time,
+                quiz : quizTemp
+        })
+            
+        }
         let checkedAns = [];
         var AnswersArray = [];
             for(let k = 0; k < questionres.length; k++){
@@ -152,7 +235,6 @@ class Quiz extends React.Component{
                 if (doesExist === true){
                     //if the questionid for the testanswer is equal to the current questions id assign testanswer to checkedAns
                    for(let i = 0; i < testAns.length; i++){
-                      
                         if(testAns[i].questionID === questionres[k].id){
                             checkedAns = testAns[i]
                         }
@@ -172,7 +254,7 @@ class Quiz extends React.Component{
                         questionID : questionres[k].id,
                         checked : "notChecked"
                     } 
-                    if (checkedAns.answer === answerres[i].answer){    //compare test answer value with answer value,if true assign true to the quiz answer's checked variable
+                    if (checkedAns.answer === answerres[i].answer && checkedAns.questionID === answerres[i].questionID){    //compare test answer value with answer value,if true assign true to the quiz answer's checked variable
                         answerres[i].checked = "isChecked"
                     }          
                 }
@@ -182,40 +264,49 @@ class Quiz extends React.Component{
             }
         
         this.setState({
+            secondmount : true,
             answers : AnswersArray
         })
 
     }  
 //classwork
         
-    oneRow(questions, rowNumber, answers){
+    oneRow(questions, rowNumber, answers, counter){
         let answerlabels = []
         let setDefaultCheck = []
         let row = questions.map((element, i) => {
+            //setDefaultCheck.pop()
+            setDefaultCheck.push("")  
             answers.map((index) =>{
-                if (index.questionID === element.id){
+                if (index.questionID === element.id){ 
+                    answerlabels.push(index.answer) 
                     if(index.checked === "isChecked"){
                         setDefaultCheck.push(index.answer)
-                    }   
-                    answerlabels.push(index.answer)
-                } 
+                    } 
+                   
+                    if(setDefaultCheck.length > 1){
+                        setDefaultCheck.shift()
+                    }
+                }
+                
             })
+
             return <>
                 <Col span={6}>
-                    {element !== null ? (
+                    {element !== null && setDefaultCheck.length > 0 && this.state.secondmount === true ?(
                         <QuestionCard key={element.id} id={element.id} title={element.question} 
-                        defaultChecked={setDefaultCheck !== undefined ? setDefaultCheck : null}answers={answerlabels} 
+                        defaultChecked={setDefaultCheck === [""] ? null : setDefaultCheck} answers={answerlabels} 
                         clicked={this.handleChange}  />) : null }
                 </Col>
             </>
         });
-
-        return <div key={rowNumber}>
+        return( <div key={rowNumber}>
             <Row type="flex" justify="center">
                 {row}
             </Row>
             <br />
         </div>
+        )
     }
     
 
@@ -233,11 +324,13 @@ class Quiz extends React.Component{
             else
                 questionsPerRow.push(null);
 
+
+            
             counter++;
             rowNumber++;
 
        
-            allRows.push(this.oneRow(questionsPerRow, rowNumber, answers));
+            allRows.push(this.oneRow(questionsPerRow, rowNumber, answers, counter));
 
         }
         return <>
@@ -245,9 +338,11 @@ class Quiz extends React.Component{
             <img src = {this.state.quiz.imageURL !== null ? this.state.quiz.imageURL : ""}/>
             <h3>{this.state.quiz.description}</h3>
             <Form onSubmit= {this.handleSubmit} onChange={this.handleChange}>
+            {this.state.time !== null && this.state.time !== undefined ?( <Timer initialTime = {this.state.time} timerCallback={this.getTimeback}/>) : null}
                 {allRows}
                 <br/>
-                <input type="submit" value="Submit"/> 
+                <input type="submit" value="Submit" onClick={this.handleComplete}/>
+                <input type="submit" value="Save" onClick={this.handleIncomplete}/>
             </Form>
             
         </>;

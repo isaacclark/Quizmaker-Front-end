@@ -23,12 +23,18 @@ class BrowseHistoryCard extends React.Component{
     }
 
     render(){
+        var timeDisplay = null
+        if (this.props.time !== "00:00:00"){
+            timeDisplay = this.props.time;
+        }    
         return(
             <div onClick={this.handleClick}>
                 <Card>
                     <h3>{this.props.title}</h3>
                     <img src={this.props.imgSrc}></img>
                     <h2>{this.props.score}</h2>
+                    <h2>{timeDisplay}</h2>
+                    
                     <p>{this.props.description}</p>
                 </Card>
             </div>

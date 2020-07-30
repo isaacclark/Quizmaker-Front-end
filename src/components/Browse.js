@@ -1,6 +1,7 @@
 import React from 'react';
 import {Col, Row} from 'antd';
 import BrowseCard from './BrowseCard';
+
 var userID = require('../data');
 
 class Browse extends React.Component{
@@ -16,26 +17,45 @@ class Browse extends React.Component{
     }
 
     callbackID = (targetID) =>{
+        console.log(targetID)
         return(
             this.props.changeState('Quiz', targetID)
         )
     }
     
     componentDidMount(){
-        fetch("http://localhost:3000/api/v1.0/quiz/")
-        .then(res => res.json())
-        .then(
-            (result) => {
+        if(this.state.userID === null){
+            fetch(`http://localhost:3000/api/v1.0/quiz/browse`)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                    quizzes: result
+                });
+                },
+                (error) => {
                 this.setState({
-                quizzes: result
-            });
-            },
-            (error) => {
-            this.setState({
-                error
-            });
-            }
-        )
+                    error
+                });
+                }
+            )
+        }
+        else{
+            fetch(`http://localhost:3000/api/v1.0/quiz/browse/${this.state.userID}`)
+            .then(res => res.json())
+            .then(
+                (result) => {
+                    this.setState({
+                    quizzes: result
+                });
+                },
+                (error) => {
+                this.setState({
+                    error
+                });
+                }
+            )
+        }
     }
 
     oneRow(options, rowNumber){
@@ -80,7 +100,7 @@ class Browse extends React.Component{
             allRows.push(this.oneRow(quizzesPerRow, rowNumber));
 
         }
-        return <>
+        return <>          
             {allRows}
         </>;
     }
