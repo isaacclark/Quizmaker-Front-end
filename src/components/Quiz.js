@@ -75,7 +75,7 @@ class Quiz extends React.Component{
             completed : this.state.completed,
             time : this.state.time
         }
-        const postTest = await fetch('https://api-backend-304cem.herokuapp.com/api/v1.0/quiz/', {
+        const postTest = await fetch('https://api-backend-304cem.herokuapp.com/quiz/', {
             method: 'POST',
             headers: {
                 'Accept' : 'application/json',
@@ -111,7 +111,7 @@ class Quiz extends React.Component{
             }
             userAnswersArray.push(newAnswer)
         }
-        await fetch('https://api-backend-304cem.herokuapp.com/api/v1.0/quiz/answers', {
+        await fetch('https://api-backend-304cem.herokuapp.com/quiz/answers', {
             method: 'POST',
             headers: {
             'Accept' : 'application/json',
@@ -121,7 +121,7 @@ class Quiz extends React.Component{
         }) 
         let TestID = userAnswersArray[0].testID;
         if(this.state.completed === 1){
-            const testscore = await fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/quiz/score/${TestID}`)
+            const testscore = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/score/${TestID}`)
             const score = await testscore.json();
             alert("you got " + score + " out of " + this.state.questions.length)
         }
@@ -201,9 +201,9 @@ class Quiz extends React.Component{
     //Fetching quiz info & questions
     async componentDidMount(){    
         //fetch quiz from db
-        const quizcall = await fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/quiz/${this.props.id}`)
+        const quizcall = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/${this.props.id}`)
         const quizres = await quizcall.json()
-        const questioncall = await fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/quiz/${this.props.id}/questions`)
+        const questioncall = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/${this.props.id}/questions`)
         const questionres = await questioncall.json()
       
         this.setState({
@@ -212,12 +212,12 @@ class Quiz extends React.Component{
         })
         var doesExist = false
         //check if quiz alrdy been attempted by user and try to return answers 
-        const testcheck = await fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/quiz/savetest/${this.props.id}/${userID.userID}`)
+        const testcheck = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/savetest/${this.props.id}/${userID.userID}`)
         const testAns = await testcheck.json()
         if (testAns !== undefined & testAns.length !== 0) {
            doesExist = true;
         }
-        const testTimeCall = await fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/quiz/getTest/${this.props.id}/${userID.userID}`)
+        const testTimeCall = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/getTest/${this.props.id}/${userID.userID}`)
         const testTime = await testTimeCall.json()
         if(testTime.length > 0){
             let quizTemp = this.state.quiz
@@ -242,7 +242,7 @@ class Quiz extends React.Component{
                    
                 }
                 //fetch answers for current question
-                let answercall = await fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/quiz/${this.props.id}/questions/${questionres[k].id}`)
+                let answercall = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/${this.props.id}/questions/${questionres[k].id}`)
                 let answerresult = await answercall.json()
                 let answerres = []
                 //Assign all answers for current question into array and add the property "checked" to each element and define it as false

@@ -25,7 +25,7 @@ class RegistrationForm extends React.Component {
             if(!err){
                 console.log('Received values of forms: ', values);
 
-                fetch('https://api-backend-304cem.herokuapp.com/api/v1.0/users/signup', {
+                fetch('https://api-backend-304cem.herokuapp.com/users/signup', {
                     method: 'POST',
                     headers: {
                         'Accept' : 'application/json',
@@ -44,6 +44,7 @@ class RegistrationForm extends React.Component {
                 }).then(data => this.checkResponse(data))
             }
         });*/
+        
     };
     handleUserName = ()=> {
         this.setState({responseStatus:"nothing"})

@@ -57,7 +57,7 @@ class QuizBuild extends React.Component{
         }
         //post quiz data (title, description, author)   
      
-        fetch('https://api-backend-304cem.herokuapp.com/api/v1.0/quizBuild/', {
+        fetch('https://api-backend-304cem.herokuapp.com/quizBuild/', {
             method: 'POST',
             headers: {
                 'Accept' : 'application/json',
@@ -78,7 +78,7 @@ class QuizBuild extends React.Component{
                     imageURL : '', 
                     quizID : data[0]["LAST_INSERT_ID()"]
                 }
-                fetch('https://api-backend-304cem.herokuapp.com/api/v1.0/quizBuild/question', {
+                fetch('https://api-backend-304cem.herokuapp.com/quizBuild/question', {
                     method: 'POST',
                     headers: {
                     'Accept' : 'application/json',
@@ -117,7 +117,7 @@ class QuizBuild extends React.Component{
                     // https://javascript.info/task/shuffle
 
                     let newAnswers = answerArray.sort(() => Math.random() - 0.5) 
-                    fetch('https://api-backend-304cem.herokuapp.com/api/v1.0/quizBuild/answers', {
+                    fetch('https://api-backend-304cem.herokuapp.com/quizBuild/answers', {
                         method: 'POST',
                         headers: {
                         'Accept' : 'application/json',

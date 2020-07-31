@@ -21,7 +21,7 @@ class LoginForm extends React.Component {
        e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values)=> {
             if(!err){
-                fetch('https://api-backend-304cem.herokuapp.com/api/v1.0/users/login', {
+                fetch('https://api-backend-304cem.herokuapp.com/users/login', {
                     method: 'POST',
                     headers: {
                         'Accept' : 'application/json',

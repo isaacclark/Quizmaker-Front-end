@@ -26,7 +26,7 @@ class BrowseHistory extends React.Component{
         }
         else{
             
-            fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/history/openquiz/${targetID}`)
+            fetch(`https://api-backend-304cem.herokuapp.com/history/openquiz/${targetID}`)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -46,7 +46,7 @@ class BrowseHistory extends React.Component{
     
     handleComplete(){
         let id = this.state.userID
-        fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/history/closed/${id}`)
+        fetch(`https://api-backend-304cem.herokuapp.com/history/closed/${id}`)
         .then(res => res.json())
         .then(
             (result) => {
@@ -65,7 +65,7 @@ class BrowseHistory extends React.Component{
 
     handleIncomplete(){ 
         let id = this.state.userID
-        fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/history/open/${id}`)
+        fetch(`https://api-backend-304cem.herokuapp.com/history/open/${id}`)
         .then(res => res.json())
         .then(
             (result) => {
@@ -84,7 +84,7 @@ class BrowseHistory extends React.Component{
 
     componentDidMount(){
         let id = this.state.userID
-            fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/history/closed/${id}`)
+            fetch(`https://api-backend-304cem.herokuapp.com/history/closed/${id}`)
             .then(res => res.json())
             .then(
                 (result) => {

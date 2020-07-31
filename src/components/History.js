@@ -92,7 +92,7 @@ class Quiz extends React.Component{
                 var s = JSON.stringify(id.id);
                 var d = JSON.parse(s);  
 
-                let answercall = await fetch(`http://localhost:3000/api/v1.0/quiz/${this.props.id}/questions/${d}`)
+                let answercall = await fetch(`http://localhost:3000/quiz/${this.props.id}/questions/${d}`)
                 let answerres = await answercall.json()
                 answerres.map(id => {
                     answersArray.push(id)
