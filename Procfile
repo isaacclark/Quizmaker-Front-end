@@ -1,1 +1,1 @@
-web: PORT=process.env.port && npm run start
+web: PORT=process.env.port && npm start
