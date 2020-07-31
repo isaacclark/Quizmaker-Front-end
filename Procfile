@@ -1,1 +1,1 @@
-web: bin/boot
+web: PORT=process.env.port && npm run start
