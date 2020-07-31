@@ -149,6 +149,6 @@ class LoginForm extends React.Component {
     }
 };
     
-const Signup = Form.create({ name: 'login'})(LoginForm);
+const Login = Form.create({ name: 'login'})(LoginForm);
 
-export default Signup;
+export default Login;
