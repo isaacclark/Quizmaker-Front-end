@@ -27,7 +27,7 @@ class App extends React.Component {
   
   state = {
     visible: true,
-    whichComponentToShow: 'Browse',
+    whichComponentToShow: 'Login',
     id: 0
   }
   
