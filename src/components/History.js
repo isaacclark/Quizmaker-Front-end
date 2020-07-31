@@ -79,9 +79,9 @@ class Quiz extends React.Component{
         //let answersArray= [];
 
         //fetch quiz from db
-        const testcall = await fetch(`http://localhost:3000/api/v1.0/history/test/${this.props.id}`)
+        const testcall = await fetch(`https://api-backend-304cem.herokuapp.com/v1.0/history/test/${this.props.id}`)
         const testResult = await testcall.json()
-        const questioncall = await fetch(`http://localhost:3000/api/v1.0/history/${this.props.id}/questions`)
+        const questioncall = await fetch(`https://api-backend-304cem.herokuapp.com/v1.0/history/${this.props.id}/questions`)
         const questionResult = await questioncall.json()    
         this.setState({
             test : testResult,

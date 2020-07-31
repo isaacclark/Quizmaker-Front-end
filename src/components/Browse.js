@@ -25,7 +25,7 @@ class Browse extends React.Component{
     
     componentDidMount(){
         if(this.state.userID === null){
-            fetch(`http://localhost:3000/api/v1.0/quiz/browse`)
+            fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/quiz/browse`)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -41,7 +41,7 @@ class Browse extends React.Component{
             )
         }
         else{
-            fetch(`http://localhost:3000/api/v1.0/quiz/browse/${this.state.userID}`)
+            fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/quiz/browse/${this.state.userID}`)
             .then(res => res.json())
             .then(
                 (result) => {
