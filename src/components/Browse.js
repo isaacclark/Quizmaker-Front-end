@@ -24,7 +24,7 @@ class Browse extends React.Component{
     }
     
     componentDidMount(){
-       /* if(this.state.userID === null){
+        if(this.state.userID === null){
             fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/quiz/browse`)
             .then(res => res.json())
             .then(
@@ -55,7 +55,7 @@ class Browse extends React.Component{
                 });
                 }
             )
-        }*/
+        }
     }
 
     oneRow(options, rowNumber){

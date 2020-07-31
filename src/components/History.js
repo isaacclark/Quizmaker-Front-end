@@ -75,7 +75,7 @@ class Quiz extends React.Component{
 
     //Fetching quiz info & questions
     async componentDidMount(){    
-/*
+
         //let answersArray= [];
 
         //fetch quiz from db
@@ -86,7 +86,7 @@ class Quiz extends React.Component{
         this.setState({
             test : testResult,
             questions : questionResult,
-        })*/
+        })
         /*await Promise.all(
             questionResult.map(async (id) => {
                 var s = JSON.stringify(id.id);
