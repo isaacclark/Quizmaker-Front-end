@@ -200,7 +200,7 @@ class Quiz extends React.Component{
 
     //Fetching quiz info & questions
     async componentDidMount(){    
-        //fetch quiz from db
+      /*  //fetch quiz from db
         const quizcall = await fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/quiz/${this.props.id}`)
         const quizres = await quizcall.json()
         const questioncall = await fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/quiz/${this.props.id}/questions`)
@@ -266,7 +266,7 @@ class Quiz extends React.Component{
         this.setState({
             secondmount : true,
             answers : AnswersArray
-        })
+        })*/
 
     }  
 //classwork

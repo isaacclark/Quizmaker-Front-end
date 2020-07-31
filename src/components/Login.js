@@ -18,7 +18,7 @@ class LoginForm extends React.Component {
         errorMessage:""
     };
     handleSubmit = e => {
-        e.preventDefault();
+      /* e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values)=> {
             if(!err){
                 fetch('https://api-backend-304cem.herokuapp.com/api/v1.0/users/login', {
@@ -43,7 +43,7 @@ class LoginForm extends React.Component {
                     }
                 })//.then(data => {this.checkResponse(data)})
             }
-        });
+        });*/
     };
     handleEmail = ()=> {
         this.setState({responseStatus:"nothing"})

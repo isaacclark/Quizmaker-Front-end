@@ -19,7 +19,7 @@ class BrowseHistory extends React.Component{
     }
 
     callbackID = (targetID) =>{
-        if(this.state.open === false){
+      /*  if(this.state.open === false){
             return(
                 this.props.changeState('History', targetID)
             )
@@ -41,11 +41,11 @@ class BrowseHistory extends React.Component{
                 }  
             ) 
            
-        }
+        }*/
     }
     
     handleComplete(){
-        let id = this.state.userID
+       /* let id = this.state.userID
         fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/history/closed/${id}`)
         .then(res => res.json())
         .then(
@@ -60,11 +60,11 @@ class BrowseHistory extends React.Component{
                     error
                 });
             }  
-        ) 
+        ) */
     }
 
     handleIncomplete(){
-      
+     /* 
         let id = this.state.userID
         fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/history/open/${id}`)
         .then(res => res.json())
@@ -80,11 +80,11 @@ class BrowseHistory extends React.Component{
                     error
                 });
             }
-        )  
+        )  */
     }
 
     componentDidMount(){
-        let id = this.state.userID
+       /* let id = this.state.userID
             fetch(`https://api-backend-304cem.herokuapp.com/api/v1.0/history/closed/${id}`)
             .then(res => res.json())
             .then(
@@ -98,7 +98,7 @@ class BrowseHistory extends React.Component{
                 error
             });
             }
-        )   
+        )   */
     }
 
     oneRow(options, rowNumber){
