@@ -1,7 +1,44 @@
 @import '~antd/dist/antd.css'; 
-
+body{
+    background-color: royalblue;
+}
 li {
     cursor: pointer;
     display: inline;
     padding: 5%;
+    
+}
+.quizTitle{
+    margin: auto;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+    text-align: center;
+}
+.quizDesciption{
+    margin-left: 0;
+    width: 50%;
+    border: 3px solid green;
+    padding: 10px;
+    text-align: center;
+}
+.timer {
+    color: white;
+    background-color: aqua;
+}
+
+.browseCard{
+    color : red;
+}
+
+.browseTitle{
+    background-color: blue;
+    margin: auto;
+    text-align: center;
+}
+
+.navBar{
+    background-color: royalblue;
+    margin: auto;
+    text-align: center;
 }

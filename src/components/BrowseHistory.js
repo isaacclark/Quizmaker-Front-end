@@ -107,7 +107,7 @@ class BrowseHistory extends React.Component{
                 <div onClick={this.handleClick}>
                     {element !== null ? (
                     <BrowseHistoryCard key={element.id} id={element.id} title={element.title} description={element.description}
-                        imgSrc = {element.imgURL !== null ? (element.imageURL) : ""}   selectID = {this.callbackID} time ={element.time} score={element.score}/>) : null }
+                        imgSrc = {element.imgURL !== null && element.imageURL !== "" ? (element.imageURL) : "https://www.marshall.edu/it/files/question-mark-circle-icon-300x240.png"}   selectID = {this.callbackID} time ={element.time} score={element.score}/>) : null }
                 </div>
             </Col>
             </>

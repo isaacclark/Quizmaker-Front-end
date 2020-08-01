@@ -54,6 +54,7 @@ class Browse extends React.Component{
                     this.setState({
                     quizzes: result
                 });
+                console.log(this.state.quizzes)
                 },
                 (error) => {
                 this.setState({
@@ -71,7 +72,7 @@ class Browse extends React.Component{
                 <div onClick={this.handleClick}>
                     {element !== null ? (
                     <BrowseCard key={element.id} id={element.id} title={element.title} description={element.description}
-                        imgSrc = {element.imgURL !== null ? (element.imageURL) : ""}   selectID = {this.callbackID} />) : null }
+                        imgSrc = {element.imageURL !== null && element.imageURL !== "" ? (element.imageURL) : "https://www.marshall.edu/it/files/question-mark-circle-icon-300x240.png" }   selectID = {this.callbackID} />) : null }
                 </div>
             </Col>
             </>

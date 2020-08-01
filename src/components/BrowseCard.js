@@ -1,5 +1,6 @@
 import React from 'react';
 import {Card} from 'antd';
+import '../App.css';
 
 
 let answers = []
@@ -24,10 +25,9 @@ class BrowseCard extends React.Component{
 
     render(){
         return(
-            <div onClick={this.handleClick}>
-                <Card>
+            <div onClick={this.handleClick}  >
+                <Card className="browseCard" bordered={false} cover={<img src={this.props.imgSrc}  />}>
                     <h3>{this.props.title}</h3>
-                    <img src={this.props.imgSrc}></img>
                     <p>{this.props.description}</p>
                 </Card>
             </div>

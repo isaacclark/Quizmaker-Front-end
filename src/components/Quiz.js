@@ -2,6 +2,7 @@ import React from 'react';
 import {Col, Row, Form} from 'antd';
 import QuestionCard from './QuestionCard';
 import Timer from './Timer';
+import '../App.css';
 var userID = require('../data');
 
 
@@ -337,11 +338,12 @@ class Quiz extends React.Component{
 
         }
         return <>
-            <h1>{this.state.quiz.title}</h1>
+            <h1 class = "quizTitle">{this.state.quiz.title}</h1>
             <img src = {this.state.quiz.imageURL !== null ? this.state.quiz.imageURL : ""}/>
-            <h3>{this.state.quiz.description}</h3>
+            <h3 class = "quizDesciption">{this.state.quiz.description}</h3>
             <Form onSubmit= {this.handleSubmit} onChange={this.handleChange}>
-            {this.state.time !== null && this.state.time !== undefined && this.state.secondmount === true && this.state.time !== "00:00:00" ?( <Timer initialTime = {this.state.time} timerCallback={this.getTimeback}/>) : null}
+            {this.state.time !== null && this.state.time !== undefined && this.state.secondmount === true && this.state.time !== "00:00:00" ?
+            ( <Timer initialTime = {this.state.time} timerCallback={this.getTimeback} />) : null}
                 {allRows}
                 <br/>
                 <input type="submit" value="Submit" onClick={this.handleComplete}/>

@@ -58,7 +58,7 @@ class Navigation extends React.Component{
 
     render(){
         return(
-            <ul>
+            <ul className="navBar">
                <li onClick= {this.handleBrowse}>Browse</li>
                <li onClick= {this.handleLogin}>Login</li>
                <li onClick= {this.handleSignup}>Signup</li>

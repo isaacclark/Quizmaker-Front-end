@@ -1,5 +1,5 @@
 import React from 'react';
-import {Checkbox, Card} from 'antd';
+import '../App.css';
 
 //https://github.com/codingforentrepreneurs/Try-Reactjs
 
@@ -66,7 +66,7 @@ class Timer extends React.Component{
         var {minutes} = this.state
         return(    
             <div>
-                <h3>{minutes} : {seconds}</h3>
+                <h3 class="timer">{minutes} : {seconds}</h3>
             </div>
         )
     }

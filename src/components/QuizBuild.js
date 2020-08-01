@@ -15,6 +15,7 @@ class QuizBuild extends React.Component{
             visible : true,   
             title: "",
             description: "",
+            imageURL: "",
             id: null,
             time : null,
             questions : [{
@@ -51,7 +52,7 @@ class QuizBuild extends React.Component{
         var newQuiz = {
             title : e.target.title.value, 
             description : e.target.description.value, 
-            imageURL : '',
+            imageURL : e.target.imageURL.value,
             author : userID.userID,
             time : e.target.time.value
         }
@@ -177,6 +178,8 @@ class QuizBuild extends React.Component{
                 <input type="text" name="title" id="title" value={this.state.title} />
                 <label htmlFor="description">Description</label>
                 <input type="text" name="description" id="description" value={this.state.description}/>
+                <label htmlFor="imageURL">Image URL</label>
+                <input type="text" name="imageURL" id="imageURL" value={this.state.imageURL}/>
                 <label htmlFor="time">Time</label>
                 <input type="time" id="time" name="time" values={this.state.time}/>
                 <div/>
