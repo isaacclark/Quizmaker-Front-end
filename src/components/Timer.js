@@ -32,7 +32,7 @@ class Timer extends React.Component{
     }
 
     async componentDidMount(){  
-        this.initialiseTime()
+        await this.initialiseTime()
         console.log("we've initialised")
         console.log(this.state.minutes)
         console.log(this.state.seconds)
