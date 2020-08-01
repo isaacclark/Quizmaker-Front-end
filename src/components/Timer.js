@@ -20,10 +20,9 @@ class Timer extends React.Component{
     initialiseTime(){
         console.log("working yet?")
         let initialTimeString = this.props.initialTime.toString().slice(0, -3)
-       // console.log(initialTimeString)
+        console.log(initialTimeString + "initialised time is")
         let intMins = parseInt(initialTimeString.slice(0, -3))
         let intSecs = parseInt(initialTimeString.substr(3))
-        console.log(intMins, intSecs)
         this.setState({
             minutes: intMins,
             seconds: intSecs
@@ -49,6 +48,7 @@ class Timer extends React.Component{
                 if(tempminutes === 0 && tempSeconds === 0){
                     clearInterval(this.myInterval);
                 }
+                console.log(tempminutes , tempSeconds)
                 this.returnTime()
             }, 1000) 
         }
