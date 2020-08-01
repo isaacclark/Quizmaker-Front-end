@@ -18,7 +18,7 @@ class Browse extends React.Component{
 
     callbackID = (targetID) =>{
         console.log(targetID)
-        if (userID === null){
+        if (this.state.userID === null ){
             return(
                 this.props.changeState('Signup')
             )
@@ -31,7 +31,7 @@ class Browse extends React.Component{
     }
     
     componentDidMount(){
-        if(this.state.userID === null){
+        if(this.state.userID === null ){
             fetch(`https://api-backend-304cem.herokuapp.com/quiz/browse`)
             .then(res => res.json())
             .then(
