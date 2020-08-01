@@ -24,14 +24,14 @@ class Timer extends React.Component{
         let intMins = parseInt(initialTimeString.slice(0, -3))
         let intSecs = parseInt(initialTimeString.substr(3))
         console.log("mins are : ", intMins)
-        console.log("seconds are : ", intMins)
+        console.log("seconds are : ", intSecs)
         this.setState({
             minutes: intMins,
             seconds: intSecs
         })
     }
 
-    componentDidMount(){  
+    async componentDidMount(){  
         this.initialiseTime()
         console.log("we've initialised")
         if(this.state.minutes > 0 || this.state.seconds > 0){   
