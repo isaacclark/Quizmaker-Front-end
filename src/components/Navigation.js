@@ -8,7 +8,8 @@ class Navigation extends React.Component{
         super(props);
 
         this.state = {
-            visible : true
+            visible : true,
+            userID : userID.userID
         }
     }
 
@@ -37,6 +38,11 @@ class Navigation extends React.Component{
     }
 
     handleQuizBuild = () => {
+        if (this.state.userID === null){
+            return(
+                this.props.changeState('Signup')
+            )
+        }
         return(
             this.props.changeState('QuizBuild')
         )

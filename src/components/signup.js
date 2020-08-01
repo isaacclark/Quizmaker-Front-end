@@ -80,7 +80,7 @@ class RegistrationForm extends React.Component {
                 showError:false
             });
             return(
-                this.props.changeState('Browse')
+                this.props.changeState('Login')
             )
         }
         else{
@@ -124,6 +124,7 @@ class RegistrationForm extends React.Component {
         );
 
         return(
+            <div>
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
                 <Form.Item label="username" hasFeedback validateStatus={this.state.responseStatus} help={this.state.errorMessage}>
                     {getFieldDecorator('username', { 
@@ -177,15 +178,6 @@ class RegistrationForm extends React.Component {
                 })(<Input.Password onBlur={this.handleConfirmBlur} /> )}
                 </Form.Item>
                 <Form.Item {...tailFormItemLayout}>
-                    {getFieldDecorator('agreement', { 
-                        valuePropName: 'checked',
-                    })(
-                        <Checkbox>
-                            I have read the <a href="">agreement</a>
-                        </Checkbox>,
-                    )}
-                </Form.Item>
-                <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit" onClick={ () => { 
                     }}>
                         Register
@@ -194,6 +186,9 @@ class RegistrationForm extends React.Component {
                 {this.state.showSuccess ? <Alert message="account created successfully" type="success" /> || this.invisible() : null}
                 {this.state.showError ? <Alert message={this.state.errorMessage} type="error"/>  :null}
             </Form>
+            <h3>Already have an account?</h3>
+            <Button onClick = {this.props.changeState('Login')}>Login here</Button>
+            </div>
         );
     }
 };
