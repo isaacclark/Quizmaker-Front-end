@@ -207,6 +207,7 @@ class Quiz extends React.Component{
         const questionres = await questioncall.json()
       
         this.setState({
+            time : quizres[0].time,
             quiz : quizres[0],
             questions : questionres,
         })
