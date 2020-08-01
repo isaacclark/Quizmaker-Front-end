@@ -19,6 +19,13 @@ class RegistrationForm extends React.Component {
         responseStatus: "nothing",
         errorMessage:""
     };
+
+    handleLoginClick = e => {
+        return(
+            this.props.changeState('Login')
+        )
+    }
+
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values)=> {
@@ -124,7 +131,6 @@ class RegistrationForm extends React.Component {
         );
 
         return(
-            <div>
             <Form {...formItemLayout} onSubmit={this.handleSubmit}>
                 <Form.Item label="username" hasFeedback validateStatus={this.state.responseStatus} help={this.state.errorMessage}>
                     {getFieldDecorator('username', { 
@@ -185,10 +191,9 @@ class RegistrationForm extends React.Component {
                 </Form.Item>
                 {this.state.showSuccess ? <Alert message="account created successfully" type="success" /> || this.invisible() : null}
                 {this.state.showError ? <Alert message={this.state.errorMessage} type="error"/>  :null}
+                <h3>Already have an account?</h3>
+                <Button onClick = {this.handleLoginClick}>Login here</Button>
             </Form>
-            <h3>Already have an account?</h3>
-            <Button onClick = {this.props.changeState('Login')}>Login here</Button>
-            </div>
         );
     }
 };
