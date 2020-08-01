@@ -23,6 +23,8 @@ class Timer extends React.Component{
         console.log(initialTimeString + " initialised time is")
         let intMins = parseInt(initialTimeString.slice(0, -3))
         let intSecs = parseInt(initialTimeString.substr(3))
+        console.log("mins are : ", intMins)
+        console.log("seconds are : ", intMins)
         this.setState({
             minutes: intMins,
             seconds: intSecs
@@ -32,7 +34,7 @@ class Timer extends React.Component{
     componentDidMount(){  
         this.initialiseTime()
         console.log("we've initialised")
-        if(this.state.minutes !== 0 || this.state.seconds !== 0){   
+        if(this.state.minutes > 0 || this.state.seconds > 0){   
             console.log("now we've passed that check")
             this.myInterval = setInterval(()=> {
                 console("are the intervals working?")
