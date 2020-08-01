@@ -20,7 +20,7 @@ class Timer extends React.Component{
     initialiseTime(){
         console.log("working yet?")
         let initialTimeString = this.props.initialTime.toString().slice(0, -3)
-        console.log(initialTimeString + "initialised time is")
+        console.log(initialTimeString + " initialised time is")
         let intMins = parseInt(initialTimeString.slice(0, -3))
         let intSecs = parseInt(initialTimeString.substr(3))
         this.setState({
@@ -31,7 +31,7 @@ class Timer extends React.Component{
 
     componentDidMount(){  
         this.initialiseTime()
-        if(this.state.minutes !== 0 && this.state.seconds !== 0){   
+        if(this.state.minutes !== 0 || this.state.seconds !== 0){   
             this.myInterval = setInterval(()=> {
                 let tempminutes = this.state.minutes
                 let tempSeconds = this.state.seconds
