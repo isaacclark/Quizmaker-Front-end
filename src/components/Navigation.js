@@ -31,13 +31,20 @@ class Navigation extends React.Component{
     }
 
     handleHistory = () => {
-        return(
+        if (userID.userID === null){
+            return(
+                this.props.changeState('Signup')
+            )
+        }
+        else{
+            return(
             this.props.changeState('BrowseHistory')
-        )
+            )
+        }
     }
 
     handleQuizBuild = () => {
-        if (userID === null){
+        if (userID.userID === null){
             return(
                 this.props.changeState('Signup')
             )

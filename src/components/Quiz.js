@@ -203,9 +203,12 @@ class Quiz extends React.Component{
         //fetch quiz from db
         const quizcall = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/${this.props.id}`)
         const quizres = await quizcall.json()
+        //fetch questions for that quiz from db
         const questioncall = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/${this.props.id}/questions`)
         const questionres = await questioncall.json()
       
+        //set state.quiz = to the quiz fetched from db
+        //same for questions and the state.time = quiz.time from db
         this.setState({
             time : quizres[0].time,
             quiz : quizres[0],
@@ -218,16 +221,17 @@ class Quiz extends React.Component{
         if (testAns !== undefined & testAns.length !== 0) {
            doesExist = true;
         }
-        const testTimeCall = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/getTest/${this.props.id}/${userID.userID}`)
-        const testTime = await testTimeCall.json()
-        if(testTime.length > 0){
-            let quizTemp = this.state.quiz
-            quizTemp.time = testTime[0].time
-            this.setState({
-                time : quizTemp.time,
-                quiz : quizTemp
-        })
-            
+        if (doesExist === true){
+            const testTimeCall = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/getTest/${this.props.id}/${userID.userID}`)
+            const testTime = await testTimeCall.json()
+            if(testTime.length > 0){
+                let quizTemp = this.state.quiz
+                quizTemp.time = testTime[0].time
+                this.setState({
+                    time : quizTemp.time,
+                    quiz : quizTemp
+                })
+            }
         }
         let checkedAns = [];
         var AnswersArray = [];
