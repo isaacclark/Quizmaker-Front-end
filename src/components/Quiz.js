@@ -223,8 +223,6 @@ class Quiz extends React.Component{
         }
         const testTimeCall = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/getTest/${this.props.id}/${userID.userID}`)
         const testTime = await testTimeCall.json()
-        console.log(testTime.length)
-        console.log(testTime[0].time)
         if(testTime.length > 0){
             let quizTemp = this.state.quiz
             quizTemp.time = testTime[0].time
@@ -232,7 +230,7 @@ class Quiz extends React.Component{
                 time : quizTemp.time,
                 quiz : quizTemp
             })
-            console.log(this.state.time)
+
         }
         let checkedAns = [];
         var AnswersArray = [];
