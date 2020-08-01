@@ -153,7 +153,6 @@ class Quiz extends React.Component{
         }
 
         timeString = ( minString + ":" + secString)
-       // console.log(timeString)
         this.setState({
             time : timeString
         })   
@@ -342,7 +341,7 @@ class Quiz extends React.Component{
             <img src = {this.state.quiz.imageURL !== null ? this.state.quiz.imageURL : ""}/>
             <h3>{this.state.quiz.description}</h3>
             <Form onSubmit= {this.handleSubmit} onChange={this.handleChange}>
-            {this.state.time !== null && this.state.time !== undefined && this.state.secondmount === true ?( <Timer initialTime = {this.state.time} timerCallback={this.getTimeback}/>) : null}
+            {this.state.time !== null && this.state.time !== undefined && this.state.secondmount === true && this.state.time !== "00:00:00" ?( <Timer initialTime = {this.state.time} timerCallback={this.getTimeback}/>) : null}
                 {allRows}
                 <br/>
                 <input type="submit" value="Submit" onClick={this.handleComplete}/>
