@@ -34,6 +34,8 @@ class Timer extends React.Component{
     async componentDidMount(){  
         this.initialiseTime()
         console.log("we've initialised")
+        console.log(this.state.minutes)
+        console.log(this.state.seconds)
         if(this.state.minutes > 0 || this.state.seconds > 0){   
             console.log("now we've passed that check")
             this.myInterval = setInterval(()=> {
