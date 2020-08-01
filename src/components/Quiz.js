@@ -221,17 +221,15 @@ class Quiz extends React.Component{
         if (testAns !== undefined & testAns.length !== 0) {
            doesExist = true;
         }
-        if (doesExist === true){
-            const testTimeCall = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/getTest/${this.props.id}/${userID.userID}`)
-            const testTime = await testTimeCall.json()
-            if(testTime.length > 0){
-                let quizTemp = this.state.quiz
-                quizTemp.time = testTime[0].time
-                this.setState({
-                    time : quizTemp.time,
-                    quiz : quizTemp
-                })
-            }
+        const testTimeCall = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/getTest/${this.props.id}/${userID.userID}`)
+        const testTime = await testTimeCall.json()
+        if(testTime.length > 0){
+            let quizTemp = this.state.quiz
+            quizTemp.time = testTime[0].time
+            this.setState({
+                time : quizTemp.time,
+                quiz : quizTemp
+            })
         }
         let checkedAns = [];
         var AnswersArray = [];
