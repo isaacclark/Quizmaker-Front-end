@@ -39,7 +39,7 @@ class Timer extends React.Component{
         if(this.state.minutes > 0 || this.state.seconds > 0){   
             console.log("now we've passed that check")
             this.myInterval = setInterval(()=> {
-                console("are the intervals working?")
+                console.log("are the intervals working?")
                 let tempminutes = this.state.minutes
                 let tempSeconds = this.state.seconds
                 tempSeconds = tempSeconds -1 
@@ -55,7 +55,6 @@ class Timer extends React.Component{
                 if(tempminutes === 0 && tempSeconds === 0){
                     clearInterval(this.myInterval);
                 }
-                console.log(tempminutes , tempSeconds)
                 this.returnTime()
             }, 1000) 
         }
