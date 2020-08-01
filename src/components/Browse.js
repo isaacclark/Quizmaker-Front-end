@@ -18,8 +18,10 @@ class Browse extends React.Component{
 
     callbackID = (targetID) =>{
         console.log(targetID)
-        if (this.state.userID === null){
-            return(this.props.changeState('Signup'))
+        if (userID === null){
+            return(
+                this.props.changeState('Signup')
+            )
         }
         else{
             return(
