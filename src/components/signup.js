@@ -20,7 +20,7 @@ class RegistrationForm extends React.Component {
         errorMessage:""
     };
     handleSubmit = e => {
-      /*  e.preventDefault();
+        e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values)=> {
             if(!err){
                 console.log('Received values of forms: ', values);
@@ -43,7 +43,7 @@ class RegistrationForm extends React.Component {
                     return res.json()
                 }).then(data => this.checkResponse(data))
             }
-        });*/
+        });
         
     };
     handleUserName = ()=> {
