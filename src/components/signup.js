@@ -6,6 +6,7 @@ import {
     Checkbox,
     Button,
 } from 'antd';
+import '../App.css';
 
 var userID = require('../data');
 
@@ -131,7 +132,8 @@ class RegistrationForm extends React.Component {
         );
 
         return(
-            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <div>
+            <Form {...formItemLayout} onSubmit={this.handleSubmit} className="signupForm">
                 <Form.Item label="username" hasFeedback validateStatus={this.state.responseStatus} help={this.state.errorMessage}>
                     {getFieldDecorator('username', { 
                         rules: [
@@ -191,9 +193,13 @@ class RegistrationForm extends React.Component {
                 </Form.Item>
                 {this.state.showSuccess ? <Alert message="account created successfully" type="success" /> || this.invisible() : null}
                 {this.state.showError ? <Alert message={this.state.errorMessage} type="error"/>  :null}
+                
+            </Form>
+            <div className = "loginLink">
                 <h3>Already have an account?</h3>
                 <Button onClick = {this.handleLoginClick}>Login here</Button>
-            </Form>
+            </div>
+            </div>
         );
     }
 };

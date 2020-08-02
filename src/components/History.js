@@ -79,10 +79,11 @@ class Quiz extends React.Component{
         //let answersArray= [];
 
         //fetch quiz from db
-        const testcall = await fetch(`https://api-backend-304cem.herokuapp.com/v1.0/history/test/${this.props.id}`)
+        const testcall = await fetch(`https://api-backend-304cem.herokuapp.com/history/test/${this.props.id}`)
         const testResult = await testcall.json()
-        const questioncall = await fetch(`https://api-backend-304cem.herokuapp.com/v1.0/history/${this.props.id}/questions`)
-        const questionResult = await questioncall.json()    
+        const questioncall = await fetch(`https://api-backend-304cem.herokuapp.com/history/${this.props.id}/questions`)
+        const questionResult = await questioncall.json()  
+        console.log(questionResult)  
         this.setState({
             test : testResult,
             questions : questionResult,
@@ -92,7 +93,7 @@ class Quiz extends React.Component{
                 var s = JSON.stringify(id.id);
                 var d = JSON.parse(s);  
 
-                let answercall = await fetch(`http://localhost:3000/quiz/${this.props.id}/questions/${d}`)
+                let answercall = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/${this.props.id}/questions/${d}`)
                 let answerres = await answercall.json()
                 answerres.map(id => {
                     answersArray.push(id)

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Col, Row} from 'antd';
 import BrowseCard from './BrowseCard';
-
+import  '../App.css';
 var userID = require('../data');
 
 class Browse extends React.Component{
@@ -72,7 +72,8 @@ class Browse extends React.Component{
                 <div onClick={this.handleClick}>
                     {element !== null ? (
                     <BrowseCard key={element.id} id={element.id} title={element.title} description={element.description}
-                        imgSrc = {element.imageURL !== null && element.imageURL !== "" ? (element.imageURL) : "https://www.marshall.edu/it/files/question-mark-circle-icon-300x240.png" }   selectID = {this.callbackID} />) : null }
+                        imgSrc = {element.imageURL !== null && element.imageURL !== "" ? element.imageURL : "https://www.marshall.edu/it/files/question-mark-circle-icon-300x240.png" }   
+                        selectID = {this.callbackID} author={element.author}/>) : null }
                 </div>
             </Col>
             </>
@@ -107,7 +108,10 @@ class Browse extends React.Component{
             allRows.push(this.oneRow(quizzesPerRow, rowNumber));
 
         }
-        return <>          
+        return <>
+            <p className="browseGuide">Welcome to the quizzes, here you can browse all available quizzes. <br/>
+            Please note if you have saved any quizzes mid way through you can access these through History. <br/> 
+            To start a quiz click anywhere on the quiz card, Goodluck!</p>          
             {allRows}
         </>;
     }

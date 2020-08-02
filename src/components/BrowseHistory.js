@@ -1,6 +1,8 @@
 import React from 'react';
 import {Col, Row} from 'antd';
 import BrowseHistoryCard from './BrowseHistoryCard';
+import '../App.css';
+
 var userID = require('../data');
 
 class BrowseHistory extends React.Component{
@@ -107,7 +109,8 @@ class BrowseHistory extends React.Component{
                 <div onClick={this.handleClick}>
                     {element !== null ? (
                     <BrowseHistoryCard key={element.id} id={element.id} title={element.title} description={element.description}
-                        imgSrc = {element.imgURL !== null && element.imageURL !== "" ? (element.imageURL) : "https://www.marshall.edu/it/files/question-mark-circle-icon-300x240.png"}   selectID = {this.callbackID} time ={element.time} score={element.score}/>) : null }
+                        imgSrc = {element.imgURL !== null && element.imageURL !== "" ? (element.imageURL) : "https://www.marshall.edu/it/files/question-mark-circle-icon-300x240.png"}   
+                        selectID = {this.callbackID} author = {element.author} time ={element.time} score={element.score} open={this.state.open}/> ) : null }
                 </div>
             </Col>
             </>
@@ -143,12 +146,12 @@ class BrowseHistory extends React.Component{
 
         }
         return <>
-        <div>
-            <ul>
-                <button onClick={this.handleComplete}>Completed tests</button>
-                <button onClick={this.handleIncomplete}>Incomplete tests</button>
-            </ul>
-        </div>
+            <div>
+                <ul className="historyBrowseNav">
+                    <li onClick={this.handleComplete}>Completed tests</li>
+                    <li onClick={this.handleIncomplete}>Incomplete tests</li>
+                </ul>
+            </div>
             {allRows}
         </>;
     }

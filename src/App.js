@@ -8,6 +8,7 @@ import Navigation from './components/Navigation';
 import QuizBuild from './components/QuizBuild';
 import BrowseHistory from './components/BrowseHistory';
 import History from './components/History';
+import Logout from './components/Logout';
 
 const options = [] /*
 [{ id: 1, title : "chicken", description : "chicken description", imgURL : "https://i.imgur.com/C4LnClT.png", 
@@ -59,6 +60,13 @@ class App extends React.Component {
           <div>   
             <Navigation changeState = {this.callbackState}/>  
             {<Login options = {options} changeState = {this.callbackState}/>}
+          </div>
+      )
+      case 'Logout':
+        return(
+          <div>   
+            <Navigation changeState = {this.callbackState}/>  
+            {<Logout changeState = {this.callbackState}/>}
           </div>
       )
       case 'Browse':

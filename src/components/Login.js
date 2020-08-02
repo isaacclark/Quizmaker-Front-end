@@ -6,6 +6,7 @@ import {
     Checkbox,
     Button,
 } from 'antd';
+import '../App.css';
 var userID = require('../data');
 
 class LoginForm extends React.Component {
@@ -106,7 +107,7 @@ class LoginForm extends React.Component {
         );
 
         return(
-            <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+            <Form {...formItemLayout} onSubmit={this.handleSubmit} className="loginForm">
                 <Form.Item label="Email" hasFeedback validateStatus={this.state.responseStatus} help={this.state.errorMessage}>
                     {getFieldDecorator('email', { 
                         rules: [{

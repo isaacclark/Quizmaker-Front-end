@@ -1,5 +1,5 @@
 import React from 'react'
-
+import '../App.css'
 
 const BuildCard = (props) =>{
 
@@ -13,17 +13,19 @@ const BuildCard = (props) =>{
             let questionID =`question-${index}`;
             let optionsID =`options-${index}`;
             let answersID =`answers-${index}`;
-            let deleteID =`delete-${index}`;
             
             return(
-                <div key={index}>
-                    <label htmlFor={questionID}>{`question #${index +1}`}</label>
-                    <input type = "text" name={questionID} data-id={index} id={questionID} className="question" />
-                    <label htmlFor={optionsID}>Options</label>
-                    <input type = "text" name={optionsID} data-id={index} id={optionsID} className="options" />
-                    <label htmlFor={answersID}>Answers</label>
-                    <input type = "text" name={answersID} data-id={index} id={answersID} className="answers" />
-
+                <div key={index} className="buildInputs">
+                    <div className="buildQuestion">
+                        <label htmlFor={questionID}>{`question number ${index +1}`}</label>
+                        <input type = "text" name={questionID} data-id={index} id={questionID} className="question" />
+                    </div>
+                    <div className="buildAnswers">
+                        <label htmlFor={optionsID}>Options</label>
+                        <input type = "text" name={optionsID} data-id={index} id={optionsID} className="options" />
+                        <label htmlFor={answersID}>Answers</label>
+                        <input type = "text" name={answersID} data-id={index} id={answersID} className="answers" />
+                    </div>
                 </div>
             )
         })        

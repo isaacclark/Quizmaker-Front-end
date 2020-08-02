@@ -296,7 +296,7 @@ class Quiz extends React.Component{
             })
 
             return <>
-                <Col span={6}>
+                <Col span={24}>
                     {element !== null && setDefaultCheck.length > 0 && this.state.secondmount === true ?(
                         <QuestionCard key={element.id} id={element.id} title={element.question} 
                         defaultChecked={setDefaultCheck === [""] ? null : setDefaultCheck} answers={answerlabels} 
@@ -338,18 +338,19 @@ class Quiz extends React.Component{
 
         }
         return <>
-            <h1 class = "quizTitle">{this.state.quiz.title}</h1>
-            <img src = {this.state.quiz.imageURL !== null ? this.state.quiz.imageURL : ""}/>
-            <h3 class = "quizDesciption">{this.state.quiz.description}</h3>
-            <Form onSubmit= {this.handleSubmit} onChange={this.handleChange}>
-            {this.state.time !== null && this.state.time !== undefined && this.state.secondmount === true && this.state.time !== "00:00:00" ?
-            ( <Timer initialTime = {this.state.time} timerCallback={this.getTimeback} />) : null}
-                {allRows}
-                <br/>
-                <input type="submit" value="Submit" onClick={this.handleComplete}/>
-                <input type="submit" value="Save" onClick={this.handleIncomplete}/>
-            </Form>
-            
+            <div className = "quiz">
+                <h1 >{this.state.quiz.title}</h1>
+                <img className="quizImg" src = {this.state.quiz.imageURL !== null ? this.state.quiz.imageURL : ""}/>
+                <h3>{this.state.quiz.description}</h3>
+                <Form onSubmit= {this.handleSubmit} onChange={this.handleChange}>
+                    {this.state.time !== null && this.state.time !== undefined && this.state.secondmount === true && this.state.time !== "00:00:00" ?
+                    (<Timer initialTime = {this.state.time} timerCallback={this.getTimeback} />) : null}
+                    {allRows}
+                    <br/>
+                    <input className="submitBtn" type="submit" value="Submit" onClick={this.handleComplete}/>
+                    <input className="saveBtn" type="submit" value="Save" onClick={this.handleIncomplete}/>
+                </Form>
+            </div>
         </>;
 
 

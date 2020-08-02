@@ -24,6 +24,11 @@ class Navigation extends React.Component{
         )
     }
 
+    handleLogout = () => {
+        return(
+            this.props.changeState('Logout')
+        )
+    }
     handleSignup = () => {
         return(
             this.props.changeState('Signup')
@@ -56,17 +61,43 @@ class Navigation extends React.Component{
         }
     }
 
-    render(){
-        return(
+    userHere(user){ 
+        console.log(user.userID)
+        if(user.userID === null || user.userID === undefined){
+            return(
             <ul className="navBar">
-               <li onClick= {this.handleBrowse}>Browse</li>
-               <li onClick= {this.handleLogin}>Login</li>
-               <li onClick= {this.handleSignup}>Signup</li>
-               <li onClick= {this.handleHistory}>History</li>
-               <li onClick= {this.handleQuizBuild}>Create a quiz</li>
-               <li>{userID.userName}</li>
+                <li onClick= {this.handleBrowse}>Browse</li>
+                <li onClick= {this.handleLogin}>Login</li>
+                <li onClick= {this.handleSignup}>Signup</li>
+                <li onClick= {this.handleHistory}>History</li>
+                <li onClick= {this.handleQuizBuild}>Create a quiz</li>
             </ul>
-        )
+            )
+        }
+        else{
+            return (
+            <div>
+                
+                <ul className="navBar">
+                    <li onClick= {this.handleBrowse}>Browse</li>
+                    <li onClick= {this.handleLogin}>Login</li>
+                    <li onClick= {this.handleSignup}>Signup</li>
+                    <li onClick= {this.handleHistory}>History</li>
+                    <li onClick= {this.handleQuizBuild}>Create a quiz</li>
+                    <li onClick= {this.handleLogout}>Logout</li>
+                    <li className="loggedUser">{user.userName}</li>
+                </ul>
+                
+            </div>
+            )
+        }
+    }
+
+    render(){
+        let nav = this.userHere(userID)
+        return<>
+            {nav}
+        </>
     }
 }
 

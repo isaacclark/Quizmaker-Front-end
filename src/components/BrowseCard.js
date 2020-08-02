@@ -26,7 +26,7 @@ class BrowseCard extends React.Component{
     render(){
         return(
             <div onClick={this.handleClick}  >
-                <Card className="browseCard" bordered={false} cover={<img src={this.props.imgSrc}  />}>
+                <Card className="browseCard" bordered={false} extra={"Author : " + this.props.author} hoverable={true} cover={<img src={this.props.imgSrc} />}>
                     <h3>{this.props.title}</h3>
                     <p>{this.props.description}</p>
                 </Card>
