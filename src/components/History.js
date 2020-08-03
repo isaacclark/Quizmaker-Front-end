@@ -2,7 +2,7 @@ import React from 'react';
 import {Col, Row, Form} from 'antd';
 import HistoryCard from './HistoryCard';
 var userID = require('../data');
-
+let counter = 0;
 class Quiz extends React.Component{
     
     constructor(props){
