@@ -89,7 +89,7 @@ class Quiz extends React.Component{
             questions : questionResult,
         })
         //async function means we can use await which will wait for this function to be executed before continuing
-        await Promise.all(
+        /*await Promise.all(
             questionResult.map(async (id) => {
                 var s = JSON.stringify(id.id);
                 var d = JSON.parse(s);  
@@ -104,7 +104,7 @@ class Quiz extends React.Component{
                
                 }
             )
-        )
+        )*/
         this.setState({
             answers : answersArray
         })
