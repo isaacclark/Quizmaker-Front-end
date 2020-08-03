@@ -21,17 +21,19 @@ class RegistrationForm extends React.Component {
         errorMessage:""
     };
 
+    //reroute to login if login btn is clicked
     handleLoginClick = e => {
         return(
             this.props.changeState('Login')
         )
     }
 
+    //when form is submitted
     handleSubmit = e => {
+         //prevent event from performing it's default function
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values)=> {
             if(!err){
-                console.log('Received values of forms: ', values);
 
                 fetch('https://api-backend-304cem.herokuapp.com/users/signup', {
                     method: 'POST',
@@ -41,6 +43,7 @@ class RegistrationForm extends React.Component {
                     },
                     body: JSON.stringify({values})
                 }).then(res => {
+                     //only return result if the information is correct
                     if(res.ok)
                         this.setState({addedSuccessfully:true})
                     else
@@ -54,6 +57,14 @@ class RegistrationForm extends React.Component {
         });
         
     };
+    /****************************************************************
+    Title:OktobUI
+    Author:Mahmoud Awad
+    Date: 2019
+    availability : https://github.coventry.ac.uk/ab8505/OktobUI/tree/homePage
+  
+    ****************************************************************/
+
     handleUserName = ()=> {
         this.setState({responseStatus:"nothing"})
     }
@@ -65,6 +76,7 @@ class RegistrationForm extends React.Component {
         const { value } = e.target;
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     };
+    //comparing the 2 passwords are the same
     compareToFirstPassword = (rule, value, callback) => {
         const { form } = this.props;
         if (value && this.state.confirmDirty) {
@@ -72,6 +84,7 @@ class RegistrationForm extends React.Component {
         }
         callback();
     };
+    //checking if password meets requirements, i.e. length
     validateToNextPassword = (rule, value, callback) => {
         const { form } = this.props;
         if (value && this.state.confirmDirty){
@@ -80,7 +93,8 @@ class RegistrationForm extends React.Component {
         callback();
     };
     checkResponse = (data) => {
-
+        //returns the user to login once attempted
+        //if all data is valid and the user is successfully created
         if(this.state.addedSuccessfully){
             this.props.form.resetFields();
             this.setState({
@@ -102,6 +116,9 @@ class RegistrationForm extends React.Component {
     }
 
     render() {
+        // https://github.coventry.ac.uk/ab8505/OktobUI/tree/homePage
+        //formatting for the form we learnt in the labs
+
         const { getFieldDecorator } = this.props.form;
 
         const formItemLayout = {
@@ -126,12 +143,13 @@ class RegistrationForm extends React.Component {
                 },
             },
         };
-
+         //add this prefix before the email input
         const prefixEmail = getFieldDecorator('email')(
             <h4>@</h4>,
         );
 
         return(
+            //signup form
             <div>
             <Form {...formItemLayout} onSubmit={this.handleSubmit} className="signupForm">
                 <Form.Item label="username" hasFeedback validateStatus={this.state.responseStatus} help={this.state.errorMessage}>

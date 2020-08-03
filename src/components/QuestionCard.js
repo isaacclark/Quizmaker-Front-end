@@ -30,6 +30,8 @@ class QuestionCard extends React.Component{
     render(){
         let Meta = Card.Meta;
         return(
+            //display answers in a checkbox, defaultValue allows the box to be preselected
+            //this is for if the test was previously saved, so the user has their previous answers displayed
             <Card className="questionCard">
                 <h3>{this.props.title}</h3>
                 <Checkbox.Group options = {this.props.answers} style={{margin: 'center'}} defaultValue={this.props.defaultChecked} onChange={this.onChange} className="checkbox"/>

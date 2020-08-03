@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-    Form,
-    Input,
-    Alert,
-    Checkbox,
-    Button,
-} from 'antd';
+import {Form,Input,Alert,Button} from 'antd';
 import '../App.css';
 var userID = require('../data');
 
@@ -18,9 +12,13 @@ class LoginForm extends React.Component {
         responseStatus: "nothing",
         errorMessage:""
     };
+
+    //when form is submitted
     handleSubmit = e => {
-       e.preventDefault();
+        //prevent event from performing it's default function
+        e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values)=> {
+            //validate login info against db
             if(!err){
                 fetch('https://api-backend-304cem.herokuapp.com/users/login', {
                     method: 'POST',
@@ -31,6 +29,7 @@ class LoginForm extends React.Component {
                     body: JSON.stringify(values)
                 }).then(res => res.json())
                 .then((result) => {
+                    //only return result if the information is correct
                     if(result != null){
                         this.setState({showSuccess:true})
                         this.checkResponse(result)
@@ -40,12 +39,13 @@ class LoginForm extends React.Component {
                             showSuccess:false,
                             errorCode: result.status
                         });
-                        //return {message: "Email or password incorrect"}
+                        alert("Email or password incorrect")
                     }
-                })//.then(data => {this.checkResponse(data)})
+                })
             }
         });
     };
+
     handleEmail = ()=> {
         this.setState({responseStatus:"nothing"})
     }
@@ -53,16 +53,19 @@ class LoginForm extends React.Component {
         const { value } = e.target;
         this.setState({ confirmDirty: this.state.confirmDirty || !!value });
     };
+
+    //once login handleSumbit has been completed
     checkResponse = (data) => { 
         if(this.state.showSuccess){
             this.setState({
                 showSuccess:true,
                 showError:false,
             });
+            //set the user id to the userID golbal variable
             userID.userID = data.id;
             userID.userName=data.username;
-            console.log(data)
             return(
+                //change state to browse
                 this.props.changeState('Browse')
             )
         }
@@ -77,8 +80,9 @@ class LoginForm extends React.Component {
     }
 
     render() {
+        // https://github.coventry.ac.uk/ab8505/OktobUI/tree/homePage
+        //formatting for the form we learnt in the labs
         const { getFieldDecorator } = this.props.form;
-
         const formItemLayout = {
             labelCol: {
                 xs: {span:24},
@@ -102,11 +106,13 @@ class LoginForm extends React.Component {
             },
         };
 
+        //add this prefix before the email input
         const prefixEmail = getFieldDecorator('email')(
             <h4>@</h4>,
         );
 
         return(
+            //Login form
             <Form {...formItemLayout} onSubmit={this.handleSubmit} className="loginForm">
                 <Form.Item label="Email" hasFeedback validateStatus={this.state.responseStatus} help={this.state.errorMessage}>
                     {getFieldDecorator('email', { 

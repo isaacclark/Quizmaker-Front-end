@@ -5,7 +5,7 @@ import Timer from './Timer';
 import '../App.css';
 var userID = require('../data');
 
-
+//main component used for any quiz/test the user attempts
 class Quiz extends React.Component{
     
     constructor(props){
@@ -55,27 +55,31 @@ class Quiz extends React.Component{
         this.handleComplete = this.handleComplete.bind(this)
         this.handleIncomplete = this.handleIncomplete.bind(this)
     }
-
+    //changes the state of completed depending on whether the user chose to save or submit
     handleComplete(){
         this.setState({
             completed: 1
         })
     }
-
+    //changes the state of completed depending on whether the user chose to save or submit
     handleIncomplete(){
         this.setState({
             completed: 0
         })
     }
-
+    //upon submit do this
     handleSubmit = async (e) =>{
         e.preventDefault()
+        //create a var for the test to be posted containing userID, quizID, completed, and time remaining
         var newTest = {
             userID : userID.userID,
             quizID : this.props.id,
             completed : this.state.completed,
             time : this.state.time
         }
+        //post the test var to the db
+        //as it's an async function we can use await as we need the var this call returns 
+        //for the next post
         const postTest = await fetch('https://api-backend-304cem.herokuapp.com/quiz/', {
             method: 'POST',
             headers: {
@@ -86,15 +90,19 @@ class Quiz extends React.Component{
         })
         const result = await postTest.json()
         let resultTestID = null;
+        //if the test was previosuly attempted this is it's ID
         if(result[0] === undefined){
             resultTestID = result
         }
+        //if its a new test the testID was stored at this var
         else{
             resultTestID = result[0]["LAST_INSERT_ID()"]
         }
         let userAnswersArray = []
+        //copy state.userAnswers
         var userAnswersCopy = this.state.userAnswers
         if(userAnswersCopy === null){
+            //if the answer didn't previously exist create a new answer
             userAnswersCopy = [
                 {
                     id : null,
@@ -104,14 +112,19 @@ class Quiz extends React.Component{
                 }
             ]
         }
+        //for the each element of userAnswerscopy
         for(let i = 0; i < userAnswersCopy.length; i++){
+            //creat a newAnswer witth answersCopy answer, testID from the previous call
+            //questionID from the userAnswers
             var newAnswer = {
                 answer : userAnswersCopy[i].answer,
                 testID : resultTestID,
                 questionID : userAnswersCopy[i].questionID
             }
+            //push the newAnswer var into an array
             userAnswersArray.push(newAnswer)
         }
+        //post all the answers in userAnswersArray to the db
         await fetch('https://api-backend-304cem.herokuapp.com/quiz/answers', {
             method: 'POST',
             headers: {
@@ -121,17 +134,22 @@ class Quiz extends React.Component{
         body: JSON.stringify({userAnswersArray})
         }) 
         let TestID = userAnswersArray[0].testID;
+        //if the test is completed, grade the quiz and return the score in an alert
         if(this.state.completed === 1){
             const testscore = await fetch(`https://api-backend-304cem.herokuapp.com/quiz/score/${TestID}`)
             const score = await testscore.json();
             alert("you got " + score + " out of " + this.state.questions.length)
         }
+        //navigate to browse
         return(
             this.props.changeState('Browse')
         )  
     }
+    //get the time remaining on the timer
     getTimeback = (timeData) =>{
         let minString, secString, timeString = "";
+        //depending on how long the minString and secString vars are, add 0s so
+        //they can be stored in the db which has the time data type
         switch(timeData.minutes.toString().length){
             case 0: 
                 minString = "00";
@@ -152,11 +170,12 @@ class Quiz extends React.Component{
             default:
                 secString = timeData.seconds.toString();
         }
-
+        //concat the 2 vars
         timeString = ( minString + ":" + secString)
         this.setState({
             time : timeString
         })   
+        //if the time left is 0, assign the quiz as completed
         if(timeData.seconds === 0 && timeData.minutes === 0){
             this.setState({
                 completed : 1
@@ -169,17 +188,22 @@ class Quiz extends React.Component{
         if(e !== undefined){   
             let answers = e.join()
             var exists = false;
+             //create a copy of userAnswers
             var userAnswersCopy = this.state.userAnswers;
+             //for all the answers that were stored un userAnswers
             for (let i = 0; i < userAnswersCopy.length; i++){
+                //if the question id is the same as the questionID supplied by the child component
                 if (userAnswersCopy[i].questionID === questID){
                     exists = true;
                     if (exists){
+                        //the userAnswers copy answer is now the same as the answers supplied by the element
                         userAnswersCopy[i].answer = answers
                     }
                 }
                 else{
                 }
             }
+            //if the question doesn't exist in state add a new one
             if (exists === false){ 
                 this.setState((prevState) => ({
                     userAnswers: [...prevState.userAnswers, {
@@ -273,8 +297,15 @@ class Quiz extends React.Component{
         })
 
     }  
-//classwork
-        
+    /****************************************************************
+    Title:OktobUI
+    Author:Mahmoud Awad
+    Date: 2019
+    availability : https://github.coventry.ac.uk/ab8505/OktobUI/tree/homePage
+  
+    ****************************************************************/
+    //using display we learnt in the labs
+    //this function returns 1 row    
     oneRow(questions, rowNumber, answers, counter){
         let answerlabels = []
         let setDefaultCheck = []
@@ -337,6 +368,9 @@ class Quiz extends React.Component{
             allRows.push(this.oneRow(questionsPerRow, rowNumber, answers, counter));
 
         }
+        //only initialise timer if secondmount i.e. componentDidMount is finished
+        //and if the intial time isn't "00:00:00" or null as the author may not have
+        //set a time
         return <>
             <div className = "quiz">
                 <h1 >{this.state.quiz.title}</h1>

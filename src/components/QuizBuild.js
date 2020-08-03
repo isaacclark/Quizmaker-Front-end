@@ -29,10 +29,9 @@ class QuizBuild extends React.Component{
         }
 
     }
-
-
-
+    //if the addQuestion button is clicked
     addQuestion = e => {
+        //add a new blank instance of questions in this.state.questions a
         this.setState((prevState) => ({
             questions: [...prevState.questions, {
                 question : "", 
@@ -40,8 +39,10 @@ class QuizBuild extends React.Component{
                 answers : ""}]
         }))
     }
-
+     //if the addQuestion button is clicked
     removeQuestion = e => {
+        //pop the newest question out of the copy of the questions array and 
+        //then set this.questions array equal to the edited copy 
         var questionsCopy = this.state.questions
         questionsCopy.pop()
         this.setState({
@@ -49,12 +50,15 @@ class QuizBuild extends React.Component{
         })
     }
     
+    //upon submit do this
     handleSubmit= (e) => { 
         e.preventDefault()
         let validated = true;
+        //check the user has atleast a title, and atleast 1 question
         if(e.target.title.value === "" || e.target.title.value === null || e.target.title.value === "" || this.state.questions.length < 1){
             validated = false;
         }
+        //check that every question has an actual question and atleast 1 answer
         for(let j = 0; j < this.state.questions.length; j++){
             if (this.state.questions[j].question === null || this.state.questions[j].answers === null || this.state.questions[j].question.length < 1 || this.state.questions[j].answers.length < 1){
                 validated = false;
@@ -64,6 +68,7 @@ class QuizBuild extends React.Component{
             alert("There needs to be a title and atleast 1 question with atleast 1 correct answer, nor can there be any questions that don't meet these requirements.")
         }
         else{
+            //create newQuiz variable with the values of the target form
             var newQuiz = {
                 title : e.target.title.value, 
                 description : e.target.description.value, 
@@ -71,7 +76,7 @@ class QuizBuild extends React.Component{
                 author : userID.userID,
                 time : e.target.time.value
             }
-            //post quiz data (title, description, author)   
+            //post quiz data (title, description, author, imageURL, time)   
         
             fetch('https://api-backend-304cem.herokuapp.com/quizBuild/', {
                 method: 'POST',
@@ -159,34 +164,21 @@ class QuizBuild extends React.Component{
         if(["question", "options", "answers"].includes(e.target.className)){
             let questions = [...this.state.questions]
             questions[e.target.dataset.id][e.target.className] = e.target.value
-            this.setState({questions}, () => console.log(this.state.questions))
+            this.setState({questions})
         }
         else{
             this.setState({ [e.target.name]: e.target.value})
-            console.log(this.state.title)
         }
 
     }
-/*
-    handleTitleChange = e => {
-        this.setState({
-            title : e.target.value.title
-        })
-    }
-
-    handleDescriptionChange = e => {
-        this.setState({
-            description : e.target.value.description
-        })
-    }
-*/
-    onchange = (data) => {
-        console.log("Form>", data);
-        console.log(this.state.questions)
-    }
+    /********************************************************* 
+     * Title: Building a Dynamic, Controlled Form with React
+     * Author: Mike Cronin
+     * Date: Jul 5, 2018
+     * Availability: https://itnext.io/building-a-dynamic-controlled-form-in-react-together-794a44ee552c
+    ***********************************************************/
     
-//  https://codepen.io/pen/?editors=0010
-
+    //Used to understand how to render an array and incrememnt the size of the array
     render(){ 
         let questions = this.state.questions;
         return(

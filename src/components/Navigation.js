@@ -2,8 +2,8 @@ import React  from 'react';
 import '../App.css';
 var userID = require('../data');
 
+//navigation bar seen at the top of every page
 class Navigation extends React.Component{
-
     constructor(props){
         super(props);
 
@@ -35,6 +35,7 @@ class Navigation extends React.Component{
         )
     }
 
+    //if user isn't logged in reroute to signup
     handleHistory = () => {
         if (userID.userID === null){
             return(
@@ -48,6 +49,7 @@ class Navigation extends React.Component{
         }
     }
 
+    //if user isn't logged in reroute to signup
     handleQuizBuild = () => {
         if (userID.userID === null){
             return(
@@ -61,8 +63,8 @@ class Navigation extends React.Component{
         }
     }
 
+    //if user is logged in, render their name to the navbar as well as a logout option
     userHere(user){ 
-        console.log(user.userID)
         if(user.userID === null || user.userID === undefined){
             return(
             <ul className="navBar">
@@ -77,7 +79,6 @@ class Navigation extends React.Component{
         else{
             return (
             <div>
-                
                 <ul className="navBar">
                     <li onClick= {this.handleBrowse}>Browse</li>
                     <li onClick= {this.handleLogin}>Login</li>

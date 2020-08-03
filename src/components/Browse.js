@@ -4,8 +4,8 @@ import BrowseCard from './BrowseCard';
 import  '../App.css';
 var userID = require('../data');
 
+//class to display all the avaiable quizzes
 class Browse extends React.Component{
-    
     constructor(props){
         super(props);
         
@@ -16,6 +16,8 @@ class Browse extends React.Component{
         }
     }
 
+    //using callback function to change states in App.js
+    //supplies the id of the quiz clicked, if user is not logged in, will changestate to signup page
     callbackID = (targetID) =>{
         if (this.state.userID === null ){
             return(
@@ -29,9 +31,12 @@ class Browse extends React.Component{
         }
     }
     
+    //is rendered after render()
     componentDidMount(){
+        //if user not logged in, fetch all quizzes to display
         if(this.state.userID === null ){
             fetch(`https://api-backend-304cem.herokuapp.com/quiz/browse`)
+            //using .then as it will only move to the next line once the promise is completed
             .then(res => res.json())
             .then(
                 (result) => {
@@ -46,6 +51,7 @@ class Browse extends React.Component{
                 }
             )
         }
+        //if user is logged in search for quizzes not attempted by the specific user
         else{
             fetch(`https://api-backend-304cem.herokuapp.com/quiz/browse/${this.state.userID}`)
             .then(res => res.json())
@@ -54,7 +60,7 @@ class Browse extends React.Component{
                     this.setState({
                     quizzes: result
                 });
-                console.log(this.state.quizzes)
+
                 },
                 (error) => {
                 this.setState({
@@ -64,9 +70,24 @@ class Browse extends React.Component{
             )
         }
     }
+    
+    /****************************************************************
+    Title:OktobUI
+    Author:Mahmoud Awad
+    Date: 2019
+    availability : https://github.coventry.ac.uk/ab8505/OktobUI/tree/homePage
+  
+    ****************************************************************/
 
+    //using display we learnt in the labs
+    //this function returns 1 row
     oneRow(options, rowNumber){
+        //go through all the elemnts of options
         let row = options.map(element => {
+            //col span is out of 24 so this makes the columns 1/4 of the page
+            //properties are passed from the element to the child component "Browsecard"
+            //if no image supplied, use the default image
+            //selectID is also a callback function
             return <>
             <Col span={6}>
                 <div onClick={this.handleClick}>
@@ -79,7 +100,7 @@ class Browse extends React.Component{
             </>
         }
         );
-
+        //place the row variable between 2 row elements
         return <div key={rowNumber}>
             <Row type="flex" justify="center">
                 {row}
@@ -88,14 +109,22 @@ class Browse extends React.Component{
         </div>
     }
 
+    //render this first
     render(){
         let allRows = [];
         let counter = 0;
         let rowNumber = 0;
-
+        /****************************************************************
+        Title:OktobUI
+        Author:Mahmoud Awad
+        Date: 2019
+        availability : https://github.coventry.ac.uk/ab8505/OktobUI/tree/homePage
+  
+        ****************************************************************/
+        //more setup we learnt in class to display the browsecards in a simple to use layout of columsn and rows
         while(counter < this.state.quizzes.length){
             let quizzesPerRow = [];
-
+            //number of elements allowed per row
             for(let i=0; i < 3; i++){
                 if(counter < this.state.quizzes.length)  
                     quizzesPerRow.push(this.state.quizzes[counter]);
@@ -103,8 +132,8 @@ class Browse extends React.Component{
                     quizzesPerRow.push(null);
                 counter++;
             }
-
             rowNumber++;
+            //push each row into this var
             allRows.push(this.oneRow(quizzesPerRow, rowNumber));
 
         }

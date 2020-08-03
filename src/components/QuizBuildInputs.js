@@ -7,8 +7,15 @@ const BuildCard = (props) =>{
         props.onchange(event.target.value);
     }
 
-//                  <button type="primary" name={deleteID }data-id={index} id={deleteID} onClick={handleChange}>Delete</button>
+    /********************************************************* 
+     * Title: Building a Dynamic, Controlled Form with React
+     * Author: Mike Cronin
+     * Date: Jul 5, 2018
+     * Availability: https://itnext.io/building-a-dynamic-controlled-form-in-react-together-794a44ee552c
+    ***********************************************************/
+    //adapted for my use, each input has it's own label
     return (
+        //each value is given an index through the mapping
         props.questions.map((val, index) => {
             let questionID =`question-${index}`;
             let optionsID =`options-${index}`;
