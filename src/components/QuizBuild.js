@@ -160,17 +160,25 @@ class QuizBuild extends React.Component{
         }
     }
 
+    
     handleChange = e => {
         if(["question", "options", "answers"].includes(e.target.className)){
             let questions = [...this.state.questions]
             questions[e.target.dataset.id][e.target.className] = e.target.value
-            this.setState({questions})
+            this.setState({questions}, () => console.log(this.state.questions))
         }
         else{
             this.setState({ [e.target.name]: e.target.value})
+            console.log(this.state.title)
         }
 
     }
+
+    onchange = (data) => {
+        console.log("Form>", data);
+        console.log(this.state.questions)
+    }
+    
     /********************************************************* 
      * Title: Building a Dynamic, Controlled Form with React
      * Author: Mike Cronin
