@@ -1,5 +1,7 @@
 import React from 'react';
 import {Checkbox, Card} from 'antd';
+import '../App.css';
+
 let answers = []
 
 class HistoryCard extends React.Component{
@@ -24,22 +26,21 @@ class HistoryCard extends React.Component{
     }
 
     render(){
-        let mystyle = ""
+        let nameclass = ""
         if(this.props.quizAnswer !== this.props.userAnswer){
-            mystyle = {backgroundColor: "Crimson"}
+            nameclass = "wrong"
         }
         else{
-            mystyle = {backgroundColor: "Chartreuse"} 
+            nameclass = "correct"
         }
 
         let Meta = Card.Meta;
         return( 
             <div>
-                <Card style = {mystyle}>
+                <Card className = {nameclass}>
                     <h3>Question : {this.props.title}</h3>
-                    <p>Your answer : {this.props.userAnswer}</p>
-                    <p>Actual answer : {this.props.quizAnswer}</p>
-                
+                    <p>Your answer : <b>{this.props.userAnswer}</b></p>
+                    <p>Correct answer : <b>{this.props.quizAnswer}</b></p>  
                 </Card>
             </div>
         )

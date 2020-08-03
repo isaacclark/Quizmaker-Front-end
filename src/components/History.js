@@ -115,7 +115,7 @@ class Quiz extends React.Component{
         let row = questions.map((element, i) => {
         
             return <>
-                <Col span={6}>
+                <Col span={24}>
                     {element !== null ? (
                         <HistoryCard key={element.id} id={element.id} title={element.question} 
                         userAnswer={element.answer === "" ? "" : element.userAnswer} quizAnswer= {element.quizAnswer} clicked={this.handleChange} extra={counter}/>) : null }
@@ -154,12 +154,14 @@ class Quiz extends React.Component{
 
         }
         return <>
-            <h1>{this.state.test.title}</h1>
+        <div className = "history">
+            <h1 className= "">{this.state.test.title}</h1>
             <img src = {this.state.test.imageURL}/>
             <h3>{this.state.test.description}</h3>
             <h2>score : {this.state.test.score}/{this.state.questions.length}</h2>
             {allRows}
             <br/>     
+        </div>
         </>;
 
 

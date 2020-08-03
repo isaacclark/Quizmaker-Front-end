@@ -364,3 +364,78 @@ body{
     cursor: pointer;
     background-color: lightgreen;
 }
+/* history */
+
+.history > h1{
+    background-color: whitesmoke;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    text-align: center;
+}
+
+.history > img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px ;
+    width: 50%;
+}
+
+.history > h3{
+    background-color: whitesmoke;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.history > h2{
+    position: fixed;
+    background-color: whitesmoke;
+    font-weight: 700;
+    top: 20%;
+    width: 15%;
+    left: 5%;
+    padding: 10px;
+    text-align: center;
+}
+
+.correct{
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    padding: -5px;
+    -webkit-box-shadow:inset 0px 0px 0px 5px  whitesmoke;
+    -moz-box-shadow:inset 0px 0px 0px 5px  whitesmoke;
+    box-shadow:inset 0px 0px 0px 5px  whitesmoke;
+    background-color: lightgreen;
+}
+
+.wrong{
+    width: 50%;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    padding: -5px;
+    -webkit-box-shadow:inset 0px 0px 0px 5px  whitesmoke;
+    -moz-box-shadow:inset 0px 0px 0px 5px  whitesmoke;
+    box-shadow:inset 0px 0px 0px 5px  whitesmoke;
+    background-color: tomato;
+}
+
+.correct h3{
+    font-size: 200%;
+}
+.wrong  h3{
+    font-size: 200%;
+}
+.correct p{
+    font-size: 150%;
+}
+.wrong  p{
+    font-size: 150%;
+}
