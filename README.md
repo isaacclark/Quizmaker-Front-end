@@ -1,3 +1,7 @@
+Front-end app for a quizmaker, made using react.js and connected to the backend at https://github.com/isaacclark/Quizmaker-Back-end .
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
