@@ -1,6 +1,6 @@
 Front-end app for a quizmaker, made using react.js and connected to the backend at https://github.com/isaacclark/Quizmaker-Back-end .
 
-
+App is live at https://spa-frontend-304cem.herokuapp.com/ , if the app fails to load on first try simply refresh the page once the heroku error page appears.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
